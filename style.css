@@ -1,0 +1,57 @@
+body {
+	background : #FFFFFF;
+	font-family: Arial;
+	text-decoration: none;
+}
+
+a {
+	color: #990000;
+	text-decoration: underline;
+}
+
+h1 {
+	font-family: Arial;
+	background: #333333;
+	color: #ffffff;
+}
+
+h2 {
+	font-family: Arial;
+	background: #ffffff;
+	color: #333333;
+	font-weight: bolder;
+}
+
+ul {
+	list-style: square;
+}
+
+#map_canvas {
+	width: 70%;
+	height: 100%;
+	float: left;
+	margin: 10px;
+}
+
+
+div.sidebar {
+	float:left;
+	width: 100px;
+}
+
+div.add {
+	display: none;
+}
+
+div.bldgfloat {
+	float: left;
+	width: 220px;
+	height: 140px;
+	font-size: x-large;
+	border: 1px solid #999;
+	margin:  0 15px 15px 0;
+}
+
+div.imagefloat {
+	
+}
