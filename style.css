@@ -55,3 +55,40 @@ div.bldgfloat {
 div.imagefloat {
 	
 }
+
+#menuitems li {
+	display: inline;
+	list-style-type: none;
+}
+
+#building-name {
+	font-weight: bold;
+}
+
+#building-address {
+	
+}
+
+img#thumbnail {
+	border: 3px solid #333;
+	margin: 5px;
+}
+
+#photo-form {
+	font-size: small;
+	margin-top: 15px;
+}
+
+#add-form {
+	font-size: small;
+	margin-top: 15px;
+}
+
+div#info {
+	font-size: small;
+	font-style: italic;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+

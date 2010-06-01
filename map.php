@@ -15,14 +15,14 @@
 
 	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 
-	<script src="http://tektonomastics.org/script/buildingmap.js" type="text/javascript"></script> 
+	<!-- nb testing -->
+	<script src="http://tektonomastics.org/script/buildingmap2.js" type="text/javascript"></script> 
 
 
 <script type="text/javascript"> 
 	function loadPhotos(id) {
 		$("#buildingimg").load("http://tektonomastics.org/getphotos.php?id="+id+"");
 	}
-		
 </script>
 
 
@@ -43,16 +43,19 @@ $(function() {
 	<div id=sidebar>
 		
 		<div id="accordion">
-		    <h3><a href="#">Browse map</a></h3>
+		    <h3><a href="#" onclick="return clearOverlays()">Browse map</a></h3>
 		    <div>
-			<div id='profile'></div>
+			<div id='profile'>
+			<div id='building-name'></div>
+			<div id='building-address'>Click a building on the map to find out more.</div>
+			</div>
 			<div id="buildingimg"></div>
 			</div>
 		    <h3><a href="#">Search</a></h3>
 		    <div><input id="address" type="textbox" value="New York City">
 		    <input type="button" value="Find" onclick="codeAddress()"></div>
 		    <h3><a href="#" onclick="return addNew(event)">Add a building</a></h3>
-		    <div><p>Drag the red map marker to set the building's location. Switch to Map or Satellite zooms for accurate placement.</p>
+		    <div id='add-form'><p>Drag the red map marker to set the building's location. Switch to Map or Satellite zooms for accurate placement.</p>
 			<form action="http://tektonomastics.org/addnew.php" enctype="multipart/form-data" method="post" name="addform">
 
 			<p>Building name<br>

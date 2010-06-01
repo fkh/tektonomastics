@@ -42,12 +42,23 @@
 
 		//	print_r($flickrdata);
 			
-			$photosHtml .= "<img src='" . $flickrdata[0][source] . "'>";
+			$photosHtml .= "<img src='" . $flickrdata[0][source] . "' id=thumbnail>";
 			
 		} //end while
+
+			$photosHtml .= "<div id=photo-form>";		
 		
-		//end of 'if' for having a db id.
-		}
+			$photosHtml .= "<div id=photo-form-header>Add a photo</div> ";
+			
+			$photosHtml .= "<div id=photo-form-body>";
+			
+			$photosHtml .= "<form action='http://tektonomastics.org/addphoto.php' enctype='multipart/form-data' method='post' name='addphoto'>";
+			
+			$photosHtml .= "<input type='file' name='uploadFile'><input  type='hidden' name='id' value='" . $building . "'></input><p>Your name</p><p><input type='text' name='contributor' value='' id=''></input></p><input type='submit' value='Upload'>";
+			
+			$photosHtml .= "</form></div></div>" ;
+		
+		} //end of 'if' for having a db id.
 		
 	
 		echo $photosHtml;
