@@ -3,11 +3,14 @@
 		include 'connect.php';
 		include 'include/phpFlickr.php';
 		
+		
 		// set up flickr authentication
-		$f = new phpFlickr('247d8333f05337cfc918849ff141b0c6', 'b449e6d4f9bb6d30');
+		$f = new phpFlickr('247d8333f05337cfc918849ff141b0c6', 'b449e6d4f9bb6d30', false);
 		$f->setToken('72157623802048061-6ef5b17ea0b52483');
 		
 		if (isset($_POST['id'])) { //then we have something to add to the database
+			
+		//	echo "found id ";
 			
 		//get the answers safe for the db
 		$timestamp = time();
@@ -20,9 +23,9 @@
 			$oldname = $_FILES['uploadFile']['name'];
 			$filetype = end(explode('.',$oldname)); 
 			$newname = md5(rand().$oldname).".".$filetype;
-
-			//echo $newname;
+			
 			move_uploaded_file ($_FILES['uploadFile'] ['tmp_name'], "images/".$newname);
+		//	echo "moved ";
 
 		}
 				
@@ -41,15 +44,30 @@
 		}
 		
 		//upload vars
+		//$photo_url = "http://tektonomastics.org/images/" . $newname;
 		$photo_url = "images/" . $newname;
-		$title = $buildingname;
+		
+		if (!$buildingname) {
+			$title = "(building name not given)";
+		} else {
+			$title = $buildingname;
+		}
 		$description = ""; //FIXME
 		$tags = "tektonomastics";
 		
+		//echo $photo_url;
+		
 		//now upload the image to flickr
+		
 		$flickrid = $f->sync_upload($photo_url, $title, $description, $tags);
 	//	$flickrid = $f->sync_upload("images/" . $newname);		
 
+		if ($flickrid == 0) {
+			$flickrerror = $f->getErrorMsg();
+			$flickrcode = $f->getErrorCode();
+			
+			echo "<html><head><title>Error!</title></head><body id='addphoto'>Oops! Something went wrong. It looks like your image didn't upload. <a href='http://tektonomastics.org/contact'>Please let us know about this problem</a>  by sending us the following info:<br><br>Technically speaking, the error was: <em>#" . $flickrcode . " - " . $flickrerror . "</em>. <br><br></body></html>";
+		} else {
 		//put the responses into the database
 		$insertquery = "INSERT INTO flickr (buildingId, flickrImage, timestamp, user) VALUES (";
 		$insertquery .= "'" . $name . "', ";
@@ -61,14 +79,19 @@
 		if (!mysql_query($insertquery,$dbconnection))
 		  {
 		  die('Error: ' . mysql_error());
-		  }
-			
-			
+		  } else {
+		//	echo "\ninserted ok\n";
 		}
+			
+			
+
 		
 		//tidy up the mysql connection
 	//	mysql_close($dbconnection);
 		
 		//header
-		header('Location: http://fkh.webfactional.com/index.php?id=' . $name);
+		header('Location: http://tektonomastics.org/map/' . $name);
+		
+		}
+		}
 ?>
