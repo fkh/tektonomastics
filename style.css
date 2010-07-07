@@ -1,12 +1,21 @@
 body {
 	background : #FFFFFF;
-	font-family: Arial;
+	font-family: .9em Helvetica, Arial, sans-serif;
+	color: #000;
 	text-decoration: none;
+	background-image: url("http://static.tumblr.com/jakaxnf/8eDl1v8j8/bg.gif");
+	background-position:center top;
+	background-repeat:repeat-y;
+	margin:0;
+	padding:0;
+	width:100%;
 }
 
 a {
-	color: #990000;
-	text-decoration: underline;
+	color: #ED1164;
+	border-bottom: 1px #ED1164 dashed;
+	text-decoration: none;
+	
 }
 
 h1 {
@@ -26,13 +35,208 @@ ul {
 	list-style: square;
 }
 
+#body_container {
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+	border: 0px solid #000;
+	text-align: left;
+}
+
+
+/* for home page menu navigation*/
+#brickwall {
+	background-image: url('../siteimages/home-menu.jpg');
+	width: 700px;
+	height: 497px;
+	margin: 10px auto;
+	padding: 0;
+	position: relative;
+	text-align: center;
+}
+
+#brickwall li {
+	margin: 0; 
+	padding: 0;
+	list-style: none;
+	position: absolute;
+}
+
+#brickwall li a {
+	height: 50px;
+	display: block;
+}
+
+#brickwall li span {
+	display: none;
+}
+
+#seemap {
+	background-image: url('../siteimages/see-the-map.png');
+	width: 214px;
+	height: 52px;
+	left: 120px;
+	top: 265px;
+}
+
+#seemap:hover {
+	background-position: 0 -52px;
+}
+
+#addbldg {
+	background-image: url('../siteimages/add-a-building.png');
+	width: 214px;
+	height: 52px;
+	left: 220px;
+	top: 80px;
+}
+
+#addbldg:hover {
+	background-position: 0 -52px;
+}
+
+#findname {
+	background-image: url('../siteimages/find-a-name.png');
+	width: 214px;
+	height: 52px;
+	left: 230px;
+	top: 400px;
+}
+
+#findname:hover {
+	background-position: 0 -52px;
+}
+
+#newsitem {
+	background-image: url('../siteimages/recent-news.png');
+	width: 104px;
+	height: 62px;
+	left: 450px;
+	top: 230px;
+}
+
+#newsitem:hover {
+	background-position: 0 -62px;
+}
+
+/* for header */
+
+div#header {
+	margin-top: 50px;
+	text-align: center;
+	border: none;
+}
+
+div#header a {
+	text-decoration: none;
+	border: none;
+}
+
+/* for nav bar */
+
+div#navigation {
+	text-align: center;
+	width: 700px;
+	height: 61px;
+	margin: 10px auto;
+	padding: 0;
+	position: relative;
+	border-bottom: none;
+	
+}
+
+#menuitems li {
+	display: inline;
+	list-style-type: none;
+	position: absolute;
+	margin: 0; 
+	padding: 0;	
+	text-decoration: none;
+	border-bottom: none;
+}
+
+#menuitems li a {
+	height: 61 px;
+	display: block;
+}
+
+#menuitems li span {
+	display: none;
+}
+
+#about {
+	background-image: url('../siteimages/about.png');
+	width: 141px;
+	height: 50px;
+	left: 0px;
+}
+
+#about:hover {
+	background-position: 0 -50px;
+}
+
+#map {
+	background-image: url('../siteimages/map.png');
+	width: 141px;
+	height: 50px;
+	left: 175px;
+}
+
+#map:hover {
+	background-position: 0 -50px;
+}
+
+#inventory {
+	background-image: url('../siteimages/inventory.png');
+	background-repeat: no-repeat;
+	width: 200px;
+	height: 50px;
+	left: 350px;
+}
+
+#inventory:hover {
+	background-position: 0 -50px;
+}
+
+#blog {
+	background-image: url('../siteimages/blog.png');
+	width: 141px;
+	height: 50px;
+	right: 0;
+}
+
+#blog:hover {
+	background-position: 0 -50px;
+}
+
+/* for footer */
+
+div#footer {
+	text-align: center;
+	border: none;
+}
+
+#footermenu li {
+	display: inline;
+	margin: 0; 
+	padding: 0;
+}
+
+/* other stuff */
+
 #map_canvas {
+	
 	width: 70%;
 	height: 100%;
+	
 	float: left;
 	margin: 10px;
 }
 
+div#inventory_canvas {
+	float: left;
+	margin: 10px;
+}
 
 div.sidebar {
 	float:left;
@@ -52,13 +256,14 @@ div.bldgfloat {
 	margin:  0 15px 15px 0;
 }
 
-div.imagefloat {
-	
+div.invfloat {
+	float: left;
+	width: 200px;
+	margin:  0 20px 15px 0;
 }
 
-#menuitems li {
-	display: inline;
-	list-style-type: none;
+div.imagefloat {
+	
 }
 
 #building-name {
