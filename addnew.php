@@ -1,10 +1,11 @@
 <?php
 		
 		include 'connect.php';
+		include 'locking.php';
 
 
 		//array of db field names
-		$dbnames = Array("id", "lat", "lon", "address",  "boro", "zip", "city", "photo", "name",  "sortname", "note",   "contributor", "twitter", "timestamp");
+		$dbnames = Array("id", "lat", "lon", "address",  "boro", "zip", "city", "photo", "name",  "sortname", "note",   "contributor", "twitter", "timestamp", "rowlock");
 		
 		//deal with the image file first
 		//if (isset($_POST['upload']) && ($_FILES['uploadFile']['size'] > 0) ) { 
@@ -26,7 +27,6 @@
 		//ok, now get a database connection
 		$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error.');
 		mysql_select_db($dbname, $dbconnection);
-
 
 		if (isset($_POST['name'])) { //then we have something to add to the database
 			
@@ -56,12 +56,17 @@
 
 		//header
 	//	$postheader = 'lat=' . $lat . "&lng=" . $lon ;
-		header('Location: http://tektonomastics.org/map/15');
 	//	header($postheader);
 
 
+		if ($contributor == 'tek') {
+			$rowlock = 0;
+		} else {
+			$rowlock = 1;
+		}
+
 		//put the responses into the database
-		$insertquery = "INSERT INTO building (name, sortname, note, lat, lon, address, boro, zip, city, contributor, twitter, photo, timestamp) VALUES (";
+		$insertquery = "INSERT INTO building (name, sortname, note, lat, lon, address, boro, zip, city, contributor, twitter, photo, timestamp, rowlock) VALUES (";
 		$insertquery .= "'" . $name . "', ";
 		$insertquery .= "'" . $sortname . "', ";
 		$insertquery .= "'" . $note . "', ";
@@ -74,11 +79,9 @@
 		$insertquery .= "'" . $contributor . "', ";
 		$insertquery .= "'" . $twitter . "', ";
 		$insertquery .= "'" . $photo . "', ";
-		$insertquery .= "'" . $timestamp . "'";
+		$insertquery .= "'" . $timestamp . "', ";
+		$insertquery .= "'" . $rowlock . "'";
 		$insertquery .= ");";
-
-	//	echo $insertquery;
-	//	echo "<br><br>";
 
 		if (!mysql_query($insertquery,$dbconnection))
 		  {
@@ -87,6 +90,25 @@
 
 		}
 		
+		//fire off the email
+		if ($rowlock) {
+
+			$dbquery = "SELECT max(id) FROM building WHERE name = '" . $name . "' ; "; 
+				
+			$result = mysql_query($dbquery);
+			$row = mysql_fetch_array($result);			
+			$id = $row[0] ; 
+					
+			lockRecord($id, $contributor, $name);
+			
+			echo "Check your email - we just send you a link, please click it to verify the building submission.<br><br> <a href='http://tektonomastics.org/map/'>Back to the map</a>.";
+			
+		} else {
+			
+			header('Location: http://tektonomastics.org/map/'); //fixme!
+			
+		}
+		
 		//tidy up the mysql connection
 		mysql_close($dbconnection);
-		?>
+?>
