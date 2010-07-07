@@ -33,14 +33,16 @@
 		$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error.');
 		mysql_select_db($dbname, $dbconnection);
 		
-		$query = "SELECT NAME FROM building WHERE ID = ". $name . ";";
+		$query = "SELECT NAME, lat, lon FROM building WHERE ID = ". $name . ";";
 
 		$db = mysql_query($query);
 
 		while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {								
 		
 			$buildingname = $row[0] ; 
-
+			$lat = $row['lat'];
+			$lon = $row['lon'];
+			
 		}
 		
 		//upload vars
@@ -52,7 +54,11 @@
 		} else {
 			$title = $buildingname;
 		}
-		$description = ""; //FIXME
+		
+		$url_name = str_replace(" ", "_", $buildingname) ;
+		
+		
+		$description = $buildingname . " is listed in <a href='http://tektonomastics.org'>Tektonomastics</a>, the building names project.\n\n <a href='http://blog.tektonomastics.org'>More about the project</a>. \n<a href='http://tektonomastics.org/map/'>Add a building!</a> \n <a href='http://tektonomastics.org/name/" . $url_name . "'>See all buildings called " . $buildingname . "</a>." ; //FIXME
 		$tags = "tektonomastics";
 		
 		//echo $photo_url;
@@ -76,16 +82,19 @@
 		$insertquery .= "'" . $contributor . "'";
 		$insertquery .= ");";
 	
+	
 		if (!mysql_query($insertquery,$dbconnection))
 		  {
 		  die('Error: ' . mysql_error());
 		  } else {
 		//	echo "\ninserted ok\n";
-		}
+		}		
 			
-			
-
+		//add geo info to the pic
 		
+		$geo = $f->photos_geo_setLocation($flickrid, $lat, $lon);
+		$geo = $f->photos_setTags($flickrid, "tektonomastics building");
+				
 		//tidy up the mysql connection
 	//	mysql_close($dbconnection);
 		
