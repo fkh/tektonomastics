@@ -1,30 +1,25 @@
 <html>
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Buildings</title>
-	<meta name="author" content="frank">
-	<!-- Date: 2010-04-04 -->
+		<title>Buildings</title>
 
-	<LINK href="http://tektonomastics.org/style.css" rel="stylesheet" type="text/css"></LINK>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<?php	include "include/head.inc"; ?>
 
-   <!-- <script src="http://tektonomastics.org/lib/jquery-1.4.2.js" type="text/javascript" ></script>-->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+   <!-- <script src="http://tektonomastics.org/lib/jquery-1.4.2.js" type="text/javascript" ></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>-->
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>  
 
 	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 
-	<!-- nb testing -->
-	<script src="http://tektonomastics.org/script/buildingmap2.js" type="text/javascript"></script> 
+
+	<script src="http://tektonomastics.org/script/buildingmap.js" type="text/javascript"></script> 
 
 
 <script type="text/javascript"> 
-	function loadPhotos(id) {
+	 function loadPhotos(id) {
 		$("#buildingimg").load("http://tektonomastics.org/getphotos.php?id="+id+"");
-	}
+	 }
 </script>
-
 
 <script type="text/javascript">
 $(function() {
@@ -37,6 +32,11 @@ $(function() {
 
 
 <body onload="loadMap()">
+
+	<div id="body_container">
+	
+	<?php include "include/header.inc"; ?>
+	<?php include "include/navbar.inc"; ?>
 	
 	<div id="map_canvas"></div>
 	
@@ -45,6 +45,7 @@ $(function() {
 		<div id="accordion">
 		    <h3><a href="#" onclick="return clearOverlays()">Browse map</a></h3>
 		    <div>
+			<p><a href=# onclick="return mapZoom('all')">All</a> | Brooklyn | Queens | <a href=# onclick="return mapZoom('bx')">Bronx and N Manhattan</a></p>
 			<div id='profile'>
 			<div id='building-name'></div>
 			<div id='building-address'>Click a building on the map to find out more.</div>
@@ -58,7 +59,7 @@ $(function() {
 		    <div id='add-form'><p>Drag the red map marker to set the building's location. Switch to Map or Satellite zooms for accurate placement.</p>
 			<form action="http://tektonomastics.org/addnew.php" enctype="multipart/form-data" method="post" name="addform">
 
-			<p>Building name<br>
+			<p>Building name *<br>
 			<input type="text" name="name" value="" id=""></input></p>
 
 			<p>Notes<br>
@@ -71,7 +72,7 @@ $(function() {
 			<input type="text" name="address" value="" id=""></input></p>
 
 			<b>About you</b>
-			<p>Your name<br>
+			<p>Your email * <small>Please give a valid email address - we'll send you a verification email, simply click on the link in the email to publish your building.</small><br>
 			<input type="text" name="contributor" value="" id=""></input></p>
 
 			<p>Your twitter<br>
@@ -81,14 +82,10 @@ $(function() {
 			</form></div>
 		</div>
 		
-		
-	
+	</div>
 
-	
-		</div>	
-		
+	</div>	
 
-	  </div>
 
 </body>
 </html>
