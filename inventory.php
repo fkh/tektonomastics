@@ -1,6 +1,7 @@
 <html>
 
 <head>
+	<title>Tektonomastics</title>
 	
 	<script type="text/javascript"> 
 		function loadPhotos(id) {
@@ -51,7 +52,7 @@
 		$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error.');
 		mysql_select_db($dbname, $dbconnection);
 
-		$query = "SELECT id, NAME, SORTNAME, count(*) as quantity FROM building GROUP BY SORTNAME ORDER BY SORTNAME ASC;";
+		$query = "SELECT id, NAME, SORTNAME, count(*) as quantity FROM building WHERE rowlock = 0 GROUP BY NAME ORDER BY SORTNAME ASC;";
 		
 		$db = mysql_query($query);
 		
@@ -119,9 +120,12 @@
 			<!-- <p>View by name | face</p> -->
 		</div>
 		
+		<div class="push"></div>
+		
 		</div>
 		
 		<!-- footer here -->
+		<?php include "include/footer.inc"; ?>
 		
 </body>
 	
