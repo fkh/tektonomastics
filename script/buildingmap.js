@@ -9,12 +9,25 @@
 	
 	var focal;
 	
+	var bId = [];
+	
+	var markerList = [];
+	var highlightList = [];
+	
 	var customIcons = {
 	      small: {
 	        icon: 'http://labs.google.com/ridefinder/images/mm_20_blue.png',
 	        shadow: 'http://labs.google.com/ridefinder/images/mm_20_shadow.png'
-	      }
+	      },
+		  active: {
+		    icon: 'http://labs.google.com/ridefinder/images/mm_20_red.png',
+	        shadow: 'http://labs.google.com/ridefinder/images/mm_20_shadow.png'	
+		}
 	    };
+	
+	//array to hold the map markers and highlight markers
+	var baseMarkers = [];
+	var hiliteMarker = [];
 	
 	var xml;
 	
@@ -28,26 +41,22 @@
 				});
 		});
 		
-	
 		var markers;
 		
-  function loadMap() {
+function loadMap() {
 	
-
-		
 	//we need this for addresses
 	geocoder = new google.maps.Geocoder();
-	
 	bounds = new google.maps.LatLngBounds(); 
-        
-	var latlng = new google.maps.LatLng(40.7, -73.9);
+      
+	var latlng = new google.maps.LatLng(40.67, -73.96);
 	var myOptions = {
-      zoom: 16,
-      center: latlng,
-      mapTypeId: google.maps.MapTypeId.TERRAIN
-    };
-   
- 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    zoom: 15,
+    center: latlng,
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  };
+ 
+	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	
 	//set center point values for the form
 	newLat = map.getCenter().lat();
@@ -55,68 +64,59 @@
 	document.addform.lat.value = newLat;
 	document.addform.lng.value = newLng;
 
-	 infoWindow = new google.maps.InfoWindow;
+	// infoWindow = new google.maps.InfoWindow;
 
 	downloadUrl("http://tektonomastics.org/markers.php", function(data) {
 	  var xml = parseXml(data);
 	  markers = xml.documentElement.getElementsByTagName("marker");
+
 	  var notFixed = true;
 	  for (var i = 0; i < markers.length; i++) {
+		
 		var building = markers[i].getAttribute("building");
+		
+		bId[building] = i;
+		
 	    var name = markers[i].getAttribute("name");
 	    var address = markers[i].getAttribute("address");
 	    var point = new google.maps.LatLng(
-	        parseFloat(markers[i].getAttribute("lat")),
-	        parseFloat(markers[i].getAttribute("lon")));
-		
-		if (building == focal) {
-			map.panTo(point);
-			map.setZoom(19);
-			map.setMapTypeId(google.maps.MapTypeId.HYBRID)
-			notFixed = false;
-		}
-		
+		        parseFloat(markers[i].getAttribute("lat")),
+		        parseFloat(markers[i].getAttribute("lon"))
+			);
+			
 		bounds.extend(point); 
+		addMarker(point, building);
 		
-	    var html = "<b>" + name + "</b> <br/>" + address + "<br><br>" ;
-	    var icon = customIcons['small'] || {};
-	    var marker = new google.maps.Marker({
-	      map: map,
-	      position: point,
-	      icon: icon.icon,
-	      shadow: icon.shadow,
-		  title: name
-	    });
-	    bindInfoWindow(marker, map, infoWindow, html, building);
 	  }
 	
-	if (notFixed) {
-	map.fitBounds(bounds);
-	}
-	
+	//map.fitBounds(bounds);
+		
 	});
 		
-
 	
-  }
+}
 
-	function bindInfoWindow(marker, map, infoWindow, html, id) {
-	  google.maps.event.addListener(marker, 'click', function() {
-		
-		//add photo form to the building data
-		var formhtml;
-		var outhtml;
-		
-		formhtml = "<p>Add a photo to this building</p><form action='addphoto.php' enctype='multipart/form-data' method='post' name='addphoto'><input type='file' name='uploadFile'><input  type='hidden' name='id' value='" + id + "'></input><p>Your name</p><p><input type='text' name='contributor' value='' id=''></input></p><input type='submit' value='Upload'></form>";
 
-		outhtml = html + formhtml;
-		//report out the building info
-		document.getElementById("profile").innerHTML = outhtml;
-		loadPhotos(id);
-	//	map.panTo(marker.getPosition());
-	  });
+	//make a new map marker with our default styling
+	function addMarker(location, id) {
+		
+		var icon = customIcons['small'] || {};
+	    
+		marker = new google.maps.Marker({
+		    position: location,
+		    map: map,
+			icon: icon.icon,
+			shadow: icon.shadow
+		  });
+		
+		google.maps.event.addListener(marker, 'click', function() {
+			loadProfile(id);
+			loadPhotos(id);
+			idClicked(id);
+		});
+		
+		baseMarkers[id] = location;
 	}
-	
 	
 	function downloadUrl(url,callback) {
 	 var request = window.ActiveXObject ?
@@ -135,21 +135,24 @@
 	}
 	
 	function parseXml(str) {
-      if (window.ActiveXObject) {
-        var doc = new ActiveXObject('Microsoft.XMLDOM');
-        doc.loadXML(str);
-        return doc;
-      } else if (window.DOMParser) {
-        return (new DOMParser).parseFromString(str, 'text/xml');
-      }
+    if (window.ActiveXObject) {
+      var doc = new ActiveXObject('Microsoft.XMLDOM');
+      doc.loadXML(str);
+      return doc;
+    } else if (window.DOMParser) {
+      return (new DOMParser).parseFromString(str, 'text/xml');
     }
+  }
 
-    function doNothing() {}
+  function doNothing() {}
 
 	function addNew(e) {
 		
-	//change map to be a hybrid, better for point placement
-	//	map.setTypeId(google.maps.MapTypeId.HYBRID);
+		//get rid of any overlays
+		clearOverlays();
+		$("#building-name").empty();
+		$("#building-address").empty();
+		$("#buildingimg").empty();
 		
 		var centerPoint = new google.maps.LatLng();
 		centerPoint = map.getCenter();
@@ -164,6 +167,8 @@
 			map: map,
 			draggable: true
 		});
+		
+		highlightList.push(newPoint);
 		
 		google.maps.event.addListener(newPoint, 'dragend', function() {
 			map.setCenter(newPoint.position);
@@ -211,4 +216,61 @@
 		//	var title = $(this).find('name').text();
 		//	$("#markers").append('<p>' + title + '</p>');
 		});
+	}
+	
+	function loadProfile(id) {
+		
+		//fetch the database info for this bulding
+				
+		$("#building-name").html(markers[bId[id]].getAttribute("name"));
+		$("#building-address").html(markers[bId[id]].getAttribute("address"));
+		$("#buildingimg").html("<div id='info'>Loading pics...</div>");
+
+
+	}
+	
+	function addHiliteMarker(id) {
+	//	var redHighlight = google.maps.MarkerImage({icon: 'http://labs.google.com/ridefinder/images/mm_20_red.png'});
+	//	baseMarkers[id].setImage(redHighlight);
+	}
+	
+
+	function idClicked(id) {
+		clearOverlays();
+		
+		$("#accordion").accordion("activate", 0); //open first panel
+		
+		var icon = customIcons['active'] || {} ;
+		
+		marker = new google.maps.Marker({
+	    position: baseMarkers[id],
+		icon: icon.icon,
+	    map: map
+	  });
+	  
+	//	alert(baseMarkers[id]);
+		highlightList.push(marker);
+	}
+	
+	
+	function clearOverlays() { //tidy up the map and info pane
+	  if (highlightList) {
+	    for (i in highlightList) {
+	      highlightList[i].setMap(null);
+	    }
+	  }
+
+	}
+	
+	function mapZoom(place) {
+		
+		switch(place) {
+			case 'all':
+				map.fitBounds(bounds);
+				break;
+			case 'bx':
+				map.panTo(new google.maps.LatLng(40.83, -73.93));
+				map.setZoom(13);
+				break;
+		}
 	}
