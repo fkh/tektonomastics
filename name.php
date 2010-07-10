@@ -121,8 +121,8 @@
 			}
 			
 			//prev url
-			$prevurl = "../name/" . str_replace(" ", "_", $prevbuild ) ;
-			$nexturl = "../name/" . str_replace(" ", "_", $nextbuild ) ;
+			$prevurl = "/name/" . str_replace(" ", "_", $prevbuild ) ;
+			$nexturl = "/name/" . str_replace(" ", "_", $nextbuild ) ;
 			
 			echo "<p> Previous: <a href='" . $prevurl . "'>" . $prevbuild . "</a> | Next: <a href='" . $nexturl . "'>"   . $nextbuild . "</a></p>" ;			
 

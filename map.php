@@ -5,19 +5,19 @@
 
 		<?php	include "include/head.inc"; ?>
 
-   <!-- <script src="http://tektonomastics.org/lib/jquery-1.4.2.js" type="text/javascript" ></script>
+   <!-- <script src="/lib/jquery-1.4.2.js" type="text/javascript" ></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>-->
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>  
 
 	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 
 
-	<script src="http://tektonomastics.org/script/buildingmap.js" type="text/javascript"></script> 
+	<script src="/script/buildingmap.js" type="text/javascript"></script> 
 
 
 <script type="text/javascript"> 
 	 function loadPhotos(id) {
-		$("#buildingimg").load("http://tektonomastics.org/getphotos.php?id="+id+"");
+		$("#buildingimg").load("/getphotos.php?id="+id+"");
 	 }
 </script>
 
@@ -56,7 +56,7 @@ $(function() {
 		    <input type="button" value="Find" onclick="codeAddress()"></div>
 		    <h3><a href="#" onclick="return addNew(event)">Add a building</a></h3>
 		    <div id='add-form'><p>Drag the red map marker to set the building's location. Switch to Map or Satellite zooms for accurate placement.</p>
-			<form action="http://tektonomastics.org/addnew.php" enctype="multipart/form-data" method="post" name="addform">
+			<form action="/addnew.php" enctype="multipart/form-data" method="post" name="addform">
 
 			<p>Building name *<br>
 			<input type="text" name="name" value="" id=""></input></p>

@@ -1,7 +1,18 @@
 RewriteEngine on
 RewriteBase /
 
+# map
+RewriteRule ^map$ /map/ [R] 
 RewriteRule ^map/(.*)$ /map.php?id=$1 [L]
+
+# inventory
+RewriteRule ^inventory$ /inventory/ [R]
 RewriteRule ^inventory/(.*)$ /inventory.php?id=$1 [L]
+
+# about
+RewriteRule ^about$ /about/ [R]
 RewriteRule ^about/(.*)$ /about.php?id=$1 [L]
+
+# name
+RewriteRule ^name$ /name/ [R]
 RewriteRule ^name/(.*)$ /name.php?name=$1 [L]

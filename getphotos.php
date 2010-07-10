@@ -52,7 +52,7 @@
 			
 			$photosHtml .= "<div id=photo-form-body>";
 			
-			$photosHtml .= "<form action='http://tektonomastics.org/addphoto.php' enctype='multipart/form-data' method='post' name='addphoto'>";
+			$photosHtml .= "<form action='/addphoto.php' enctype='multipart/form-data' method='post' name='addphoto'>";
 			
 			$photosHtml .= "<input type='file' size='15' name='uploadFile'><input  type='hidden' name='id' value='" . $building . "'></input><p>Your name</p><p><input type='text' name='contributor' value='' id=''></input></p><input type='submit' value='Upload'>";
 			
