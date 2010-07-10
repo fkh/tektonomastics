@@ -1,7 +1,7 @@
 <html>
 
 <head>
-		<title>Buildings</title>
+		<title>Tektonomastics</title>
 
 		<?php	include "include/head.inc"; ?>
 
@@ -32,12 +32,11 @@ $(function() {
 
 
 <body onload="loadMap()">
-
 	<div id="body_container">
 	
 	<?php include "include/header.inc"; ?>
 	<?php include "include/navbar.inc"; ?>
-	
+		
 	<div id="map_canvas"></div>
 	
 	<div id=sidebar>
@@ -45,7 +44,7 @@ $(function() {
 		<div id="accordion">
 		    <h3><a href="#" onclick="return clearOverlays()">Browse map</a></h3>
 		    <div>
-			<p><a href=# onclick="return mapZoom('all')">All</a> | Brooklyn | Queens | <a href=# onclick="return mapZoom('bx')">Bronx and N Manhattan</a></p>
+			<!-- ><p><a href=# onclick="return mapZoom('all')">All</a> | Brooklyn | Queens | <a href=# onclick="return mapZoom('bx')">Bronx and N Manhattan</a></p> -->
 			<div id='profile'>
 			<div id='building-name'></div>
 			<div id='building-address'>Click a building on the map to find out more.</div>
@@ -83,9 +82,12 @@ $(function() {
 		</div>
 		
 	</div>
+	<div class="push"></div>
 
-	</div>	
+	</div>
 
-
+	<!-- footer -->
+		<?php	include "include/footer.inc"; ?>
 </body>
+
 </html>

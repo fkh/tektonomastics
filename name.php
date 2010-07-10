@@ -1,6 +1,7 @@
 <html>
 
 <head>
+	<title>Tektonomastics</title>
 
 	<?php include "include/head.inc"; ?>
 	  
@@ -135,8 +136,11 @@
 		<div id='sidebar'>
 			<p>.</p>
 		</div>
-		</div>
+		<div class="push"></div>
 		
+		</div>
+		<!-- footer -->
+		<?php include "include/footer.inc"; ?>
 </body>
 	
 </html>
