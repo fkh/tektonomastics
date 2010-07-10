@@ -1,11 +1,10 @@
 <?php
 
 	function lockRecord($id, $email, $name) {
-		
+				
 		include 'connect.php';
 		include 'sendEmail.php';
-		
-		
+				
 		$hashedId = makeHash($id);
 		
 		$verifylink = "http://tektonomastics.org/verify.php?key=" . $hashedId ;
@@ -19,7 +18,7 @@
 		//stick the hash and id into the lock table -- no, not using a lock table.
 		$updatequery = "UPDATE building set rowlock = 1 where id = " . $id . ";" ;
 		
-		//echo $updatequery;
+		// echo $updatequery;
 		
 		if (!mysql_query($updatequery,$dbconnection))
 		  {
@@ -34,19 +33,18 @@
 		$message .= "<a href=" . $verifylink . ">" . $verifylink . "</a> <br><br>Visiting the link convinces us you are human, not a spam-generating computer.<br><br>";
 		$message .= "Thanks!";
 		
-		//send it
+		//prep headers
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$headers .= 'bcc: tektonomastics@gmail.com';
-		smtp($email, $subject, $message, $headers);
-		
-		
+
 		//email to us
-		$subject = "New building! " . $name ;
-		$message = "Submitted by: " . $email . ". Database id: " . $id ;
+		$devsubject = "New building! " . $name ;
+		$devmessage = "Submitted by: " . $email . ". Database id: " . $id ;
 		
-		smtp("tektonomastics@gmail.com", $subject, $message, $headers);
-			
+		//send it, if we can
+			smtp($email, $subject, $message, $headers);
+			smtp("tektonomastics@gmail.com", $devsubject, $devmessage, $headers);
+		
 		return 1; // 
 		
 	}
