@@ -35,12 +35,18 @@
 		$message .= "Thanks!";
 		
 		//send it
-
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$headers .= 'bcc:tektonomastics@gmail.com';
+		$headers .= 'bcc: tektonomastics@gmail.com';
 		smtp($email, $subject, $message, $headers);
 		
+		
+		//email to us
+		$subject = "New building! " . $name ;
+		$message = "Submitted by: " . $email . ". Database id: " . $id ;
+		
+		smtp("tektonomastics@gmail.com", $subject, $message, $headers);
+			
 		return 1; // 
 		
 	}
