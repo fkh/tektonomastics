@@ -6,7 +6,7 @@
 	$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error.');
 	mysql_select_db($dbname, $dbconnection);
 
-	$query = "SELECT * FROM building WHERE lat > 0";
+	$query = "SELECT * FROM building WHERE lat > 0 and rowlock = 0;";
 	$result = mysql_query($query);
 	if (!$result) {  
 	  die('Invalid query: ' . mysql_error());
