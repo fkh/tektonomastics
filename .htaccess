@@ -1,0 +1,7 @@
+RewriteEngine on
+RewriteBase /
+
+RewriteRule ^map/(.*)$ /map.php?id=$1 [L]
+RewriteRule ^inventory/(.*)$ /inventory.php?id=$1 [L]
+RewriteRule ^about/(.*)$ /about.php?id=$1 [L]
+RewriteRule ^name/(.*)$ /name.php?name=$1 [L]
