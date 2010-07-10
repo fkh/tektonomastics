@@ -1,6 +1,7 @@
 body {
 	background : #FFFFFF;
-	font-family: .9em Helvetica, Arial, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: .9em;
 	color: #000;
 	text-decoration: none;
 	background-image: url("http://static.tumblr.com/jakaxnf/8eDl1v8j8/bg.gif");
@@ -12,8 +13,8 @@ body {
 }
 
 a {
-	color: #ED1164;
-	border-bottom: 1px #ED1164 dashed;
+	color: #E7187E;
+	border-bottom: 1px #E7187E dashed;
 	text-decoration: none;
 	
 }
@@ -38,11 +39,16 @@ ul {
 #body_container {
 	margin-left: auto;
 	margin-right: auto;
+	
+	margin-bottom: -50px;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	
 	width: 700px;
 	border: 0px solid #000;
 	text-align: left;
 }
-
 
 /* for home page menu navigation*/
 #brickwall {
@@ -53,6 +59,8 @@ ul {
 	padding: 0;
 	position: relative;
 	text-align: center;
+	text-decoration: none;
+	border-bottom: none;
 }
 
 #brickwall li {
@@ -60,11 +68,15 @@ ul {
 	padding: 0;
 	list-style: none;
 	position: absolute;
+	text-decoration: none;
+	border-bottom: none;
 }
 
 #brickwall li a {
 	height: 50px;
 	display: block;
+	text-decoration: none;
+	border-bottom: none;
 }
 
 #brickwall li span {
@@ -137,12 +149,12 @@ div#header a {
 div#navigation {
 	text-align: center;
 	width: 700px;
-	height: 61px;
+	height: 50px;
 	margin: 10px auto;
 	padding: 0;
 	position: relative;
 	border-bottom: none;
-	
+	text-decoration: none;
 }
 
 #menuitems li {
@@ -156,8 +168,10 @@ div#navigation {
 }
 
 #menuitems li a {
-	height: 61 px;
+	height: 50px;
 	display: block;
+	text-decoration: none;
+	border-bottom: none;
 }
 
 #menuitems li span {
@@ -186,9 +200,9 @@ div#navigation {
 	background-position: 0 -50px;
 }
 
+
 #inventory {
 	background-image: url('../siteimages/inventory.png');
-	background-repeat: no-repeat;
 	width: 200px;
 	height: 50px;
 	left: 350px;
@@ -209,17 +223,46 @@ div#navigation {
 	background-position: 0 -50px;
 }
 
+.currentmap {
+	background-image: url('../siteimages/map.png');
+	background-position: 0 -50px;
+	width: 141px;
+	height: 50px;
+	left: 175px;
+}
+
+.currentinventory {
+	background-image: url('../siteimages/inventory.png');
+	background-position: 0 -50px;
+	width: 200px;
+	height: 50px;
+	left: 350px;
+}
+
 /* for footer */
 
 div#footer {
 	text-align: center;
 	border: none;
+	height: 50px;
+	clear: both;
 }
 
 #footermenu li {
 	display: inline;
 	margin: 0; 
-	padding: 0;
+	padding: 20;
+}
+
+#footermenu li a {
+	color: #B2D235;
+	border-bottom: 1px #B2D235 dashed;
+	
+}
+
+.push {
+	height: 50px;
+	clear: both;
 }
 
 /* other stuff */
@@ -227,8 +270,7 @@ div#footer {
 #map_canvas {
 	
 	width: 70%;
-	height: 100%;
-	
+	height: 80%;
 	float: left;
 	margin: 10px;
 }
