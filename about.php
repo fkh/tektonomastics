@@ -11,8 +11,7 @@
 		
 	<!-- header/navigation -->
 	<?php include "include/header.inc"; ?>
-	
-	
+	<?php include "include/navbar.inc"; ?>
 
  	<h3>What is Tektonomastics?</h3>
 						<p>&#8220;Tektonomastics&#8221; is a word that we made up by combining &#8220;tekto-&#8221; (Greek for &#8220;building) with &#8220;<a title="International Council of Onomastic Sciences (ICOS)" target="_blank" href="http://www.icosweb.net/index.php/whatis-onomastics.html">onomastics</a>&#8221; (the study of the history and origin of proper names.  More established branches of onomatology include <a title="toponomastics" target="_blank" href="http://en.wikipedia.org/wiki/Toponymy">toponomastics</a> (the study of place names) and <a title="anthroponomastics" target="_blank" href="http://en.wikipedia.org/wiki/Anthroponymy">anthroponomastics</a> (the study of personal names).  We are creating a new branch - tektonomastics - or, the study of building names.</p>
