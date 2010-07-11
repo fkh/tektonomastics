@@ -43,7 +43,7 @@
 		$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error: ' . mysql_error() );
 		mysql_select_db($dbname, $dbconnection);
 		
-		$query = "SELECT id, NAME, SORTNAME, count(*) as quantity FROM building WHERE rowlock = 0 GROUP BY NAME ORDER BY SORTNAME ASC;";
+		$query = "SELECT id, NAME, SORTNAME, count(*) as quantity FROM building WHERE rowlock = 0 GROUP BY SORTNAME ORDER BY SORTNAME ASC;";
 		
 		$db = mysql_query($query) or die (mysql_error($dbconnection));
 		
@@ -58,8 +58,8 @@
 			
 			while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {								
 
-				$name = $row['SORTNAME'];
-				$prettyname = $row['NAME'];
+				$name = $row['SORTNAME']; // this has no "the"
+				$prettyname = stripslashes($name);
 				$quantity = $row['quantity'];
 				
 				$initial = substr($name, 0, 1);
@@ -69,7 +69,9 @@
 					$first = $initial ;
 				} 
 				
-				$linkname = str_replace(" ", "_", $prettyname) ;
+				// $linkname = str_replace(" ", "_", $name) ;
+				$linkname = urlencode($prettyname) ;
+				
 				
 				echo "<p><a href='/name/" . $linkname . "'>" . $prettyname . "</a>";
 				

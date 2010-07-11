@@ -23,8 +23,8 @@
 		
 		//whatever the passed name is, get it
 		
-		$building = str_replace("_", " ", $_GET['name']) ;
-	
+		$building = urldecode($_GET['name']) ;
+				
 			if (!($_GET['name'])) {
 
 				echo "Oops. Something went wrong.";
@@ -41,15 +41,23 @@
 		mysql_select_db($dbname, $dbconnection);
 		
 		//safe name
-		$safename = mysql_real_escape_string($building);
-
-		$query = "SELECT id, name, sortname, address, boro, contributor, twitter, zip, timestamp FROM building WHERE name = '" . $safename ."'   ORDER BY sortname ASC;";
+		$safename = addslashes($building);
 		
-		// echo $query;
+		//echo $safename . " ";
+				
+		$query = "SELECT id, name, sortname, address, boro, contributor, twitter, zip, timestamp FROM building WHERE sortname	 = '" . $safename ."'   ORDER BY sortname ASC;";
+		
+		//echo $query;
 	
 		$db = mysql_query($query);
 		
 		$numbuildings = mysql_num_rows($db);
+		
+		if ($numbuildings == 0 ) {
+
+			echo "Oops. Something went wrong. Can't find a building called " . $safename . ".";
+
+		}
 		
 		if ($numbuildings > 1 ) {
 			echo "<p>There are " . $numbuildings . " buildings called " . $building . "! </p>";
@@ -57,7 +65,7 @@
 		
 		while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {								
 			
-			echo "<h2>" . $row['name'] . "</h2>" ;
+			echo "<h2>" . stripslashes($row['name']) . "</h2>" ;
 			
 			//address block
 			if ($row['address'] <> "") { 
@@ -107,22 +115,22 @@
 			
 			
 			//get previous building			
-			$query = "SELECT name FROM building WHERE name < '" . $safename ."'   ORDER BY sortname DESC LIMIT 1;";
+			$query = "SELECT sortname FROM building WHERE sortname < '" . $safename ."'   ORDER BY sortname DESC LIMIT 1;";
 			$db = mysql_query($query);
 			while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {
-				$prevbuild = $row[0];
+				$prevbuild = stripslashes($row[0]);
 			}
 
 			//get next building
-			$query = "SELECT name FROM building WHERE name > '" . $safename ."'   ORDER BY sortname ASC LIMIT 1;";
+			$query = "SELECT sortname FROM building WHERE sortname > '" . $safename ."'   ORDER BY sortname ASC LIMIT 1;";
 			$db = mysql_query($query);
 			while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {
-				$nextbuild = $row[0]; 	
+				$nextbuild = stripslashes($row[0]); 	
 			}
 			
 			//prev url
-			$prevurl = "/name/" . str_replace(" ", "_", $prevbuild ) ;
-			$nexturl = "/name/" . str_replace(" ", "_", $nextbuild ) ;
+			$prevurl = "/name/" . urlencode(($prevbuild)) ;
+			$nexturl = "/name/" . urlencode(($nextbuild)) ;
 			
 			echo "<p> Previous: <a href='" . $prevurl . "'>" . $prevbuild . "</a> | Next: <a href='" . $nexturl . "'>"   . $nextbuild . "</a></p>" ;			
 
@@ -134,7 +142,6 @@
 		</div>
 		
 		<div id='sidebar'>
-			<p>.</p>
 		</div>
 		<div class="push"></div>
 		
