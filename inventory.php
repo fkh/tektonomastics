@@ -103,7 +103,7 @@
 		</div>
 		
 		<!-- footer here -->
-		<?php include "../footer.inc"; ?>
+		<?php include "include/footer.inc"; ?>
 		
 </body>
 	
