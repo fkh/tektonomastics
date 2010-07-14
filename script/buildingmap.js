@@ -35,7 +35,7 @@
 	$(document).ready(function(){
 		$.ajax({
 		        type: "GET",
-				url: "http://tektonomastics.org/markers.php?type=new",
+				url: "/markers.php?type=new",
 				dataType: "xml",
 				success: parsexml
 				});
@@ -66,7 +66,7 @@ function loadMap() {
 
 	// infoWindow = new google.maps.InfoWindow;
 
-	downloadUrl("http://tektonomastics.org/markers.php", function(data) {
+	downloadUrl("/markers.php", function(data) {
 	  var xml = parseXml(data);
 	  markers = xml.documentElement.getElementsByTagName("marker");
 
@@ -181,7 +181,7 @@ function loadMap() {
 		
 		var html = " ";
 	 
-		bindInfoWindow(newPoint, map, infoWindow, html);
+		// bindInfoWindow(newPoint, map, infoWindow, html);
 		
 		return false;
 	}
