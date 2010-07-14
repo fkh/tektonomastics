@@ -16,3 +16,7 @@ RewriteRule ^about/(.*)$ /about.php?id=$1 [L]
 # name
 RewriteRule ^name$ /name/ [R]
 RewriteRule ^name/(.*)$ /name.php?name=$1 [L]
+
+# about
+RewriteRule ^data$ /data/ [R]
+RewriteRule ^data/(.*)$ /data.php?id=$1 [L]
