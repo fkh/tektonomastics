@@ -51,12 +51,25 @@ function loadMap() {
       
 	var latlng = new google.maps.LatLng(40.67, -73.96);
 	var myOptions = {
-    zoom: 15,
+    zoom: 14,
     center: latlng,
-    mapTypeId: google.maps.MapTypeId.TERRAIN
+    mapTypeId: google.maps.MapTypeId.HYBRID,
+	mapTypeControlOptions: {
+	        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+	        mapTypeIds: [google.maps.MapTypeId.ROADMAP,
+	                    google.maps.MapTypeId.SATELLITE,
+	                    google.maps.MapTypeId.HYBRID,
+	                    google.maps.MapTypeId.TERRAIN]
+	      },
+	//streetViewControl: true
+	
   };
  
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	
+	//var panorama = new  google.maps.StreetViewPanorama(document.getElementById("pano"));
+	//map.setStreetView(panorama);
+    
 	
 	//set center point values for the form
 	newLat = map.getCenter().lat();
@@ -145,6 +158,8 @@ function loadMap() {
   }
 
   function doNothing() {}
+
+
 
 	function addNew(e) {
 		

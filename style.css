@@ -189,14 +189,14 @@ div#navigation {
 	background-position: 0 -50px;
 }
 
-#map {
+#tmap {
 	background-image: url('../siteimages/map.png');
 	width: 141px;
 	height: 50px;
 	left: 175px;
 }
 
-#map:hover {
+#tmap:hover {
 	background-position: 0 -50px;
 }
 
