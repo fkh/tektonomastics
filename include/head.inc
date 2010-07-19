@@ -3,7 +3,7 @@
 <meta name="author" content="frank">
 <link rel="shortcut icon" href="http://25.media.tumblr.com/avatar_90f19417f126_16.png"/>
 
-<LINK href="http://tektonomastics.org/style.css" rel="stylesheet" type="text/css"></LINK>
+<LINK href="/style.css" rel="stylesheet" type="text/css"></LINK>
 	
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
