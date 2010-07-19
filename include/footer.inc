@@ -8,7 +8,7 @@
 	<li><a href="/inventory/" title="">inventory</a></li>
 	<li><a href="/data/" title="">data</a></li>
 	<li><a href="http://blog.tektonomastics.org/" title="">blog</a></li>
-	<li><a href="mailto:tektonomastics@gmail.com" title="">contact</a></li>
+	<li><a href="/contact" title="">contact</a></li>
 	
 	</ul>
 	</div>
