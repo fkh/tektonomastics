@@ -277,11 +277,15 @@ div#footer {
 /* other stuff */
 
 #map_canvas {
-	
-	width: 70%;
+	width: 670px;
 	height: 80%;
 	float: left;
 	margin: 10px;
+}
+
+div#map_search {
+	width: 50%;
+	float: left;
 }
 
 div#inventory_canvas {
@@ -335,10 +339,25 @@ img#thumbnail {
 	margin-top: 15px;
 }
 
-#add-form {
-	font-size: small;
-	margin-top: 15px;
+#add-info {
+	width: 250px;
+	float: left;
 }
+
+#add-form {
+	width: 400px;
+	border-left-color: #c8ce59;
+	border-left-width: 3px;
+	float: right;
+}
+
+input.bigtext {
+	color:#7A8872;
+	padding:10px;
+	width:400px;
+	font-size: 200%;
+}
+
 
 div#info {
 	font-size: small;
@@ -347,4 +366,18 @@ div#info {
 	margin-bottom: 15px;
 }
 
+div#add_new {
+	float: left;
+}
 
+.clear { 
+	clear: both;
+	}
+
+#addbox{
+	background-color: #fdffc7;
+	border: 3px solid #c8ce59;
+	margin: 10px;
+	padding: 10px;
+	width: 650;
+}
