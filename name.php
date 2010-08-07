@@ -7,7 +7,7 @@
 	  
 	</head>
 
-		<body onload=load()>
+		<body>
 
 	<div id='body_container'>
 	<?php include "include/header.inc"; ?>
@@ -45,7 +45,7 @@
 		
 		//echo $safename . " ";
 				
-		$query = "SELECT id, name, sortname, address, boro, contributor, twitter, zip, timestamp FROM building WHERE sortname	 = '" . $safename ."'   ORDER BY sortname ASC;";
+		$query = "SELECT id, name, sortname, address, boro, contributor, twitter, zip, lat, lon, timestamp FROM building WHERE sortname	 = '" . $safename ."'   ORDER BY sortname ASC;";
 		
 		//echo $query;
 	
@@ -91,29 +91,34 @@
 				echo "<img src='" . $photo . "'><br><br>\n";
 			}
 			
+			// credit
+			$contrib_credit = "<p> Contributed by ";
+			
+			//date details
+			$contrib_date = date( "F", $row['timestamp'] ) . " " . date( "Y", $row['timestamp'] );		
+			
 			//if contributor
 			$contrib = $row['contributor'];
+			$twitter = $row['twitter'];
+				
+			if ( $twitter ) {
+				
+				$contrib_credit .= "<a href='http://twitter.com/" . $twitter . "'>@" . $twitter . "</a>";
 			
+			} else {
+				if  ( $contrib ) {
+					$contrib_credit .= $contrib ;
+				} else {
+					$contrib_credit = "Anonymous contribution";
+				}
+			}
+
+			$contrib_credit .= ", " . $contrib_date . ".</p>"; 
 			
-			
-			if ( $contrib <> "") {
-				
-				//make it not an email address
-				$contrib = substr($contrib, 0, strpos($contrib, "@"));
-				
-				echo "<p> Contributed by " . $contrib ;
-				
-				if ($row['twitter'] <> "") {
-					echo " (<a href='http://twitter.com/". $row['twitter'] . "'>@" . $row['twitter'] ."</a>)" ;
-				} 
-				
-				 echo ", " . date( "F", $row['timestamp'] ) . " " . date( "Y", $row['timestamp'] ) . ".</p>";
+			print $contrib_credit;
 			
 			}
-			
-		}
-			
-			
+									
 			//get previous building			
 			$query = "SELECT sortname FROM building WHERE sortname < '" . $safename ."'   ORDER BY sortname DESC LIMIT 1;";
 			$db = mysql_query($query);
