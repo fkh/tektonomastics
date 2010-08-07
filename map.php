@@ -22,9 +22,26 @@
 </script>
 
 <script type="text/javascript">
-$(function() {
-		$("#accordion").accordion( {animated: false, autoHeight: false} );
+$(document).ready(function() {
+	
+	$('#addbox').hide();
+	
+	 $('#add_new').click(function() {
+		$('#map_search').fadeOut();
+		$('#new_building').fadeOut();
+	    $('#addbox').fadeIn("slow");
+	  });
+	
+	 $('#cancel_new').click(function() {
+		$('#map_search').fadeIn();
+		$('#new_building').fadeIn();
+	    $('#addbox').hide('blind');
+		clearOverlays();
+	    return false;
+	  });
+	
 	});
+	
 </script>
 
 
@@ -36,57 +53,46 @@ $(function() {
 	
 	<?php include "include/header.inc"; ?>
 	<?php include "include/navbar.inc"; ?>
-		
-	<div id="map_canvas"></div>
 	
-	<div id=sidebar>
+	<div id="map_search">
+		<input id="address" type="textbox" value="Search for an address...">
+	    <input type="button" value="Find" onclick="codeAddress()">
+	</div>
+	
+	<div id="new_building"><a href="#" id="add_new" onclick="return addNew(event)">Add a building</a></div>
+	<div id="addbox" name="msg">
+	
+	<div id="add-info">
+	<h3>Step #1</h3><p><strong>Locate the building</strong></p><p>We dropped a red marker onto the map. Drag it to set the building's location. You might want to zoom in, for accurate placement.</p>
 		
-		<div id="accordion">
-		    <h3><a href="#" onclick="return clearOverlays()">Browse map</a></h3>
-		    <div>
-			<!-- ><p><a href=# onclick="return mapZoom('all')">All</a> | Brooklyn | Queens | <a href=# onclick="return mapZoom('bx')">Bronx and N Manhattan</a></p> -->
-			<div id='profile'>
-			<div id='building-name'></div>
-			<div id='building-address'>Click a building on the map to find out more.</div>
-			</div>
-			<div id="buildingimg"></div>
-			</div>
-		    <h3><a href="#">Search</a></h3>
-		    <div><input id="address" type="textbox" value="New York City">
-		    <input type="button" value="Find" onclick="codeAddress()"></div>
-		    <h3><a href="#" onclick="return addNew(event)">Add a building</a></h3>
-		    <div id='add-form'><p>Drag the red map marker to set the building's location. Switch to Map or Satellite zooms for accurate placement.</p>
-			<form action="/addnew.php" enctype="multipart/form-data" method="post" name="addform">
-
-			<p>Building name *<br>
-			<input type="text" name="name" value="" id=""></input></p>
-
-			<p>Notes<br>
-			<textarea name="note" rows="4" cols="20"></textarea></p>
-
-			<input  type="hidden" name="lat" value="" ></input>
-			<input  type="hidden" name="lng" value="" ></input>
-
-			<p># and street<br>
-			<input type="text" name="address" value="" id=""></input></p>
-
-			<b>About you</b>
-			<p>Your email * <small>Please give a valid email address - we'll send you a verification email, simply click on the link in the email to publish your building.</small><br>
-			<input type="text" name="contributor" value="" id=""></input></p>
-
-			<p>Your twitter<br>
-			<input type="text" name="twitter" value="" id=""></input></p>
-
-			<input type="submit" value="Add this building">
-			</form></div>
 		</div>
 		
+		<div id="add-form">
+			<h3>Step #2</h3><p><strong>Name the building</strong></p>
+			<form action="/new.php" enctype="multipart/form-data" method="post" name="addform">
+ 			<p><input type="text" name="name" value="building name" class="bigtext" onFocus="this.value='';"></input></p>
+			<input  type="hidden" name="lat" value="" ></input>
+			<input  type="hidden" name="lng" value="" ></input>
+			<input type="submit" value="Next step" style="background: grey; color: pink; font-size: 1.2em"> or <a href=# id="cancel_new">Cancel</a>
+			</form>
+		</div>
+		<div class="clear"></div>
 	</div>
-	<div class="push"></div>
+	
+	<div id='building_info'>
+		<div id='profile'>
+		<div id='building-name'></div>
+		<div id='building-address'></div>
+		</div>
 
+		<div id="buildingimg"></div>
+	
 	</div>
+	
+	<div id="map_canvas">
+	</div>
+ <!-- 	<div id="pano" style="position:absolute; left:410px; top: 8px; width: 400px; height: 300px;"></div> -->
 
-	<!-- footer -->
 		<?php	include "include/footer.inc"; ?>
 </body>
 

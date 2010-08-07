@@ -5,24 +5,7 @@
 
 
 		//array of db field names
-		$dbnames = Array("id", "lat", "lon", "address",  "boro", "zip", "city", "photo", "name",  "sortname", "note",   "contributor", "twitter", "timestamp", "rowlock");
-		
-		//deal with the image file first
-		//if (isset($_POST['upload']) && ($_FILES['uploadFile']['size'] > 0) ) { 
-		if ($_FILES['uploadFile']['size'] > 0 ) { 
-			$oldname = $_FILES['uploadFile']['name'];
-			$filetype = end(explode('.',$oldname)); 
-			$newname = md5(rand().$oldname).".".$filetype;
-
-			//echo $newname;
-			move_uploaded_file ($_FILES['uploadFile'] ['tmp_name'], "images/".$newname);
-
-			//echo $_FILES['uploadFile'] ['name'];
-			//echo $_FILES['uploadFile'] ['tmp_name'];
-			//echo $_FILES['uploadFile'] ['error'];
-			//echo $_FILES['uploadFile'] ['size'];
-
-		}
+		$dbnames = Array("id", "lat", "lon", "address",  "boro", "zip", "city", "name",  "sortname", "note",   "contributor", "twitter", "timestamp", "rowlock");
 
 		//ok, now get a database connection
 		$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error.');
@@ -52,14 +35,14 @@
 		$boro = mysql_real_escape_string($_POST['boro']);
 		$zip = mysql_real_escape_string($_POST['zip']);
 		$city = mysql_real_escape_string($_POST['city']);
+		$email = mysql_real_escape_string($_POST['email']);
 		$contributor = mysql_real_escape_string($_POST['contributor']);
 		$twitter = mysql_real_escape_string($_POST['twitter']);
-		$photo = $newname;
-
-		//header
-	//	$postheader = 'lat=' . $lat . "&lng=" . $lon ;
-	//	header($postheader);
-
+		
+		//deal with the twitter handle - we want to store it without the @.
+		if (substr($twitter, 0, 1) == "@") {
+			$twitter = mb_substr($twitter, 1);
+		}
 
 		if ($contributor == 'tek') {
 			$rowlock = 0;
@@ -68,7 +51,7 @@
 		}
 
 		//put the responses into the database
-		$insertquery = "INSERT INTO building (name, sortname, note, lat, lon, address, boro, zip, city, contributor, twitter, photo, timestamp, rowlock) VALUES (";
+		$insertquery = "INSERT INTO building (name, sortname, note, lat, lon, address, boro, zip, city, email, contributor, twitter, timestamp, rowlock) VALUES (";
 		$insertquery .= "'" . $name . "', ";
 		$insertquery .= "'" . $sortname . "', ";
 		$insertquery .= "'" . $note . "', ";
@@ -78,9 +61,9 @@
 		$insertquery .= "'" . $boro . "', ";
 		$insertquery .= "'" . $zip . "', ";
 		$insertquery .= "'" . $city . "', ";
+		$insertquery .= "'" . $email . "', ";
 		$insertquery .= "'" . $contributor . "', ";
 		$insertquery .= "'" . $twitter . "', ";
-		$insertquery .= "'" . $photo . "', ";
 		$insertquery .= "'" . $timestamp . "', ";
 		$insertquery .= "'" . $rowlock . "'";
 		$insertquery .= ");";
@@ -102,7 +85,7 @@
 			$id = $row[0] ; 
 			
 			if (($_SERVER["SERVER_NAME"]) == "tektonomastics.org") {
-				lockRecord($id, $contributor, $name);
+				lockRecord($id, $email, $name);
 				echo "Check your email - we just send you a link, please click it to verify the building submission.<br><br> <a href='http://tektonomastics.org/map/'>Back to the map</a>.";
 			} else {
 				echo "Running on the development server - the record was created and locked, but no email was sent.\n\n";
@@ -112,7 +95,8 @@
 			
 		} else {
 			
-			header('Location: http://tektonomastics.org/map/'); //fixme!
+			$headerloc = "http://tektonomastics.org/name/" . $sortname ; 
+			header('Location: ' . $headerloc ); //fixme!
 			
 		}
 		
