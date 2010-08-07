@@ -1,6 +1,8 @@
 	var map;
 	
-	var infoWindow;
+	var infoWindow = new google.maps.InfoWindow( { 
+	    size: new google.maps.Size(150,150)
+	  });
 	
 	var geocoder;
 	
@@ -61,15 +63,18 @@ function loadMap() {
 	                    google.maps.MapTypeId.HYBRID,
 	                    google.maps.MapTypeId.TERRAIN]
 	      },
-	//streetViewControl: true
+	streetViewControl: true
 	
   };
+
  
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	
-	//var panorama = new  google.maps.StreetViewPanorama(document.getElementById("pano"));
-	//map.setStreetView(panorama);
-    
+	google.maps.event.addListener(map, 'click', function() {
+        infowindow.close();
+    });
+  
+  
 	
 	//set center point values for the form
 	newLat = map.getCenter().lat();
@@ -77,10 +82,9 @@ function loadMap() {
 	document.addform.lat.value = newLat;
 	document.addform.lng.value = newLng;
 
-	// infoWindow = new google.maps.InfoWindow;
-
 	downloadUrl("/markers.php", function(data) {
 	  var xml = parseXml(data);
+	    
 	  markers = xml.documentElement.getElementsByTagName("marker");
 
 	  var notFixed = true;
@@ -91,14 +95,16 @@ function loadMap() {
 		bId[building] = i;
 		
 	    var name = markers[i].getAttribute("name");
+		var shortname = name.replace("The ",""); 
 	    var address = markers[i].getAttribute("address");
 	    var point = new google.maps.LatLng(
 		        parseFloat(markers[i].getAttribute("lat")),
 		        parseFloat(markers[i].getAttribute("lon"))
 			);
+		var html = "<strong>" + name + "</strong><br>" + address + "<br><br><a href='/name/" + shortname + "'>View in inventory</a>";
 			
 		bounds.extend(point); 
-		addMarker(point, building);
+		addMarker(point, building, html);
 		
 	  }
 	
@@ -111,7 +117,7 @@ function loadMap() {
 
 
 	//make a new map marker with our default styling
-	function addMarker(location, id) {
+	function addMarker(location, id, html) {
 		
 		var icon = customIcons['small'] || {};
 	    
@@ -122,13 +128,10 @@ function loadMap() {
 			shadow: icon.shadow
 		  });
 		
-		google.maps.event.addListener(marker, 'click', function() {
-			loadProfile(id);
-			loadPhotos(id);
-			idClicked(id);
-		});
+		baseMarkers[id] = location;      
 		
-		baseMarkers[id] = location;
+		bindInfoWindow(marker, map, infoWindow, html);
+		
 	}
 	
 	function downloadUrl(url,callback) {
@@ -195,9 +198,7 @@ function loadMap() {
 		);
 		
 		var html = " ";
-	 
-		// bindInfoWindow(newPoint, map, infoWindow, html);
-		
+			
 		return false;
 	}
 	
@@ -237,9 +238,9 @@ function loadMap() {
 		
 		//fetch the database info for this bulding
 				
-		$("#building-name").html(markers[bId[id]].getAttribute("name"));
-		$("#building-address").html(markers[bId[id]].getAttribute("address"));
-		$("#buildingimg").html("<div id='info'>Loading pics...</div>");
+	//	$("#building-name").html(markers[bId[id]].getAttribute("name") + " " + markers[bId[id]].getAttribute("address"));
+		// $("#building-address").html(markers[bId[id]].getAttribute("address"));
+	//	$("#buildingimg").html("<div id='info'>Loading pics...</div>");
 
 
 	}
@@ -275,6 +276,13 @@ function loadMap() {
 	    }
 	  }
 
+	}
+	
+	function bindInfoWindow(marker, map, infoWindow, html) {
+	  google.maps.event.addListener(marker, 'click', function() {
+	    infoWindow.setContent(html);
+	    infoWindow.open(map, marker);
+	  });
 	}
 	
 	function mapZoom(place) {
