@@ -5,10 +5,24 @@
 		
 		if ($_GET['key']) {
 			
+			$building = releaseRecord($_GET['key']);
 			
-			if (releaseRecord($_GET['key']) == 1) {
+			if ($building > 0) {
+				
+			$query = "SELECT sortname FROM building WHERE id = '" . $building ."';";
+			
+			$db = mysql_query($query);
 
-				echo "Thanks! Your building is now visible on the map. See it <a href='http://tektonomastics.org/map/'>here</a>.";
+			while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {
+			
+			$confirmation = "Thanks! Your building is now included in the inventory.";
+			$confirmation .= "See it <a href='http://tektonomastics.org/map/";
+			$confirmation .= $row['sortname'];
+			$confirmation .= "'>here</a>.";
+			
+			}
+
+
 
 			} else {
 

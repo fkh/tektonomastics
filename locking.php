@@ -74,7 +74,7 @@
 			  die('Error: ' . mysql_error());
 			  }
 		
-				return 1 ;
+				return $id ;
 		} else {
 			
 			return 0 ;
