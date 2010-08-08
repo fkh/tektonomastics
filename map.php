@@ -69,7 +69,7 @@ $(document).ready(function() {
 		
 		<div id="add-form">
 			<h3>Step #2</h3><p><strong>Name the building</strong></p>
-			<form action="/new.php" enctype="multipart/form-data" method="post" name="addform">
+			<form action="/new/" enctype="multipart/form-data" method="post" name="addform">
  			<p><input type="text" name="name" value="building name" class="bigtext" onFocus="this.value='';"></input></p>
 			<input  type="hidden" name="lat" value="" ></input>
 			<input  type="hidden" name="lng" value="" ></input>
