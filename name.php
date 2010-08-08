@@ -134,8 +134,9 @@
 			}
 			
 			//work out how long the array is
-			$com_count = count((array)$photos[comments][author]);
 			
+			$com_count = count((array)$photos[comments][author]);
+			if ($com_count > 0) {
 			$comment_block = "<h4>Comments</h4>";
 			//write out comment block
 			for ($com_i = 0; $com_i < $com_count; $com_i++){
@@ -149,13 +150,18 @@
 				$comment_block .= date( "F", $commentdate ) . " " . date( "Y", $commentdate ) . "</p>";
 				
 			}
-			
-			$comment_block .= "<a href='http://www.flickr.com/photos/tektonomastics/" . $imgid . "'>Add a comment</a> via Flickr (it'll show up here!).<br>"; 
+			}
+			$comment_block .= "<p><a href='http://www.flickr.com/photos/tektonomastics/" . $imgid . "'>Add a comment</a> via Flickr (it'll show up here!).</p>"; 
 			
 			//print the images
 			print $comment_block;
 			print $photoBlock;
 			print $img_block;
+			
+			//small static map
+			$lat = $row['lat'];
+			$lon = $row['lon'];			
+			print "<a href='/map'><img src='http://maps.google.com/maps/api/staticmap?center=" . $lat . "," . $lon . "&zoom=17&size=700x200&markers=color:blue|" .  $lat . "," . $lon . "&sensor=false' /></a>";
 			
 			// credit
 			$contrib_credit = "<p>Building contributed by ";
