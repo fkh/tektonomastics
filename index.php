@@ -2,7 +2,8 @@
 
 <head>
 	<title>Tektonomastics</title>
-	<?php	include "include/head.inc"; ?>
+	<meta name="description" content="Join us in a collaborative effort to map the named residential buildings of New York City and beyond.">
+	<?php include "include/head.inc"; ?>
 </head>
 
 <body onload="load()">
