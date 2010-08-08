@@ -4,8 +4,7 @@
 	
 		include 'include/phpFlickr.php';
 		
-		function getPhotos($building)
-		{
+		function getPhotos($building) {
 		
 			include 'connect.php';
 		
@@ -32,6 +31,10 @@
 			//for the flickr image size info
 			$flickrdata = array();
 			$photos = array();
+			$comauth = array();	
+			$comdate = array();
+			$comcontent = array();		
+			$com = array();			
 
 			//var to hold the output list of image names
 			$photosHtml = "";
@@ -39,15 +42,32 @@
 			//then, loop through the flickr ids and look up the image links
 			while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {
 
-				$flickrdata = $f->photos_getSizes($row['flickrImage']);
+				$flickrpic = $row['flickrImage'];
+				$flickrdata = $f->photos_getSizes($flickrpic);
 
-				// print_r($flickrdata);
+				array_push($photos, $flickrdata[3][source]);
+	
+				$flickrdata = $f->photos_comments_getList($flickrpic);
+							
+				foreach ($flickrdata as $photo)  {
+					foreach ($photo as $commenttree) {
+						foreach  ($commenttree as $comment){
+							
+							array_push($comauth, $comment[authorname]);
+							array_push($comdate, $comment[datecreate]);							
+							array_push($comcontent, $comment[_content]);
+						
 
-			array_push($photos, $flickrdata[3][source]) ;
+						}
+
+					}
+				}
+			
+				$comments = array('author'=>$comauth, 'comdate'=>$comdate, 'comcon'=>$comcontent, 'flickr'=>$flickrpic);
 
 			}
 			
-			return $photos;
+			return array('photos'=>$photos, 'comments'=>$comments);
 			
 		}
 		

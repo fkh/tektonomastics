@@ -88,6 +88,7 @@
 			echo "<p>There are " . $numbuildings . " buildings called " . $building . "! </p>";
 		} 
 		
+		//we might have more than one building with the same name
 		while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {								
 			
 			echo "<h2>" . stripslashes($row['name']) . "</h2>" ;
@@ -119,16 +120,42 @@
 				$photoBlock .= "<input type='file' size='15' name='uploadFile'><input  type='hidden' name='id' value='" . $buildingid . "'></input><p>Your name (so we can credit you on Flickr!)</p><p><input type='text' name='contributor' value='' id=''></input></p><input type='submit' value='Upload'>";
 				$photoBlock .= "</form></div></div>" ;
 				
-				print $photoBlock;
-				
-				
-			
 			$photos = getPhotos($buildingid); 
+
+			$img_block = "";
 			
-			foreach ($photos as $photo) {
-				
-				echo "<p><img src='" . $photo . "'></p>\n";
+			//prepare the photo block
+			foreach ((array)$photos[photos] as $photo) {	
+				$img_block .= "<p><img src='" . $photo . "'></p>\n";
 			}
+			
+			foreach ((array)$photos[comments][flickr] as $flickr) {	
+				$imgid = $flickr;
+			}
+			
+			//work out how long the array is
+			$com_count = count((array)$photos[comments][author]);
+			
+			$comment_block = "<h4>Comments</h4>";
+			//write out comment block
+			for ($com_i = 0; $com_i < $com_count; $com_i++){
+				
+				$commentdate = $photos[comments][comdate][$com_i];
+				
+				$comment_block .= "<p>" . $photos[comments][comcon][$com_i];
+				
+				$comment_block .= "<br> -- " . $photos[comments][author][$com_i] . ", "; 
+				
+				$comment_block .= date( "F", $commentdate ) . " " . date( "Y", $commentdate ) . "</p>";
+				
+			}
+			
+			$comment_block .= "<a href='http://www.flickr.com/photos/tektonomastics/" . $imgid . "'>Add a comment</a> via Flickr (it'll show up here!).<br>"; 
+			
+			//print the images
+			print $comment_block;
+			print $photoBlock;
+			print $img_block;
 			
 			// credit
 			$contrib_credit = "<p>Building contributed by ";
