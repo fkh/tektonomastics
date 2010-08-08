@@ -321,8 +321,12 @@ div.imagefloat {
 	
 }
 
+p.name-heading {
+	font-size: large;
+}
+
 #building-name {
-	font-weight: bold;
+	
 }
 
 #building-address {
@@ -332,6 +336,7 @@ div.imagefloat {
 img#thumbnail {
 	border: 3px solid #333;
 	margin: 5px;
+	border-style: none;
 }
 
 #photo-form {
