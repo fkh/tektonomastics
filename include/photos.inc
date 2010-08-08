@@ -48,22 +48,14 @@
 				array_push($photos, $flickrdata[3][source]);
 	
 				$flickrdata = $f->photos_comments_getList($flickrpic);
-							
-				foreach ($flickrdata as $photo)  {
-					foreach ($photo as $commenttree) {
-						foreach  ($commenttree as $comment){
-							
-							array_push($comauth, $comment[authorname]);
-							array_push($comdate, $comment[datecreate]);							
-							array_push($comcontent, $comment[_content]);
-						
-
-						}
-
-					}
+				
+				foreach ((array)$flickrdata['comments']['comment'] as $comment)  {
+					array_push($comauth, $comment[authorname]);
+					array_push($comdate, $comment[datecreate]);							
+					array_push($comcontent, $comment[_content]);
 				}
-			
-				$comments = array('author'=>$comauth, 'comdate'=>$comdate, 'comcon'=>$comcontent, 'flickr'=>$flickrpic);
+				
+			$comments = array('author'=>$comauth, 'comdate'=>$comdate, 'comcon'=>$comcontent, 'flickr'=>$flickrpic);
 
 			}
 			
