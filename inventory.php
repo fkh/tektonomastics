@@ -3,12 +3,16 @@
 <head>
 	<title>Tektonomastics</title>
 	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>  
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>  
+	
+
+	
 	<script type="text/javascript"> 
-		function loadPhotos(id) {
-			$.get('/getphotos.php?id='+id+'',function(data){
-				$(data).appendTo('#build' + id + '');
-			});
-//			$('#build' + id + '').load("getphotos.php?id="+id+"").appendTo();
+		function loadPhotos() {
+			$.get('/getphotos.php?recent=1', function(data){
+				$('#recent-pics').html(data);
+							});
 		}
 	</script>
 	
@@ -17,7 +21,7 @@
 	  
 	</head>
 
-		<body onload=load()>
+		<body onload="loadPhotos();">
 			
 		<div id='body_container'>
 			
@@ -50,6 +54,8 @@
 		$records = mysql_num_rows($db); 
 		
 		echo "<div id='inventory_canvas'>"; 
+		
+		echo "<div id='recent-pics'><em>Loading pics of recently-added buildings...</em></div>";
 			
 			echo "<p>There are " . $records . " buildings in the Inventory.</p>\n"; 
 			
