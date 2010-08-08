@@ -1,6 +1,9 @@
 RewriteEngine on
 RewriteBase /
 
+RewriteCond %{HTTP_HOST} www.tektonomastics.org
+RewriteRule ^(.*) http://tektonomastics.org/$1 [R=301]
+
 # map
 RewriteRule ^map$ /map/ [R] 
 RewriteRule ^map/(.*)$ /map.php?id=$1 [L]
@@ -24,3 +27,7 @@ RewriteRule ^data/(.*)$ /data.php?id=$1 [L]
 # contact
 RewriteRule ^contact$ /contact/ [R]
 RewriteRule ^contact/(.*)$ /contact.php?id=$1 [L]
+
+# contact
+RewriteRule ^new$ /new/ [R]
+RewriteRule ^new/(.*)$ /new.php?id=$1 [L]
