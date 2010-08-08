@@ -33,7 +33,7 @@
 		$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error.');
 		mysql_select_db($dbname, $dbconnection);
 		
-		$query = "SELECT NAME, lat, lon FROM building WHERE ID = ". $name . ";";
+		$query = "SELECT NAME, sortname, lat, lon FROM building WHERE ID = ". $name . ";";
 
 		$db = mysql_query($query);
 
@@ -42,6 +42,7 @@
 			$buildingname = $row[0] ; 
 			$lat = $row['lat'];
 			$lon = $row['lon'];
+			$sortname =  $row['sortname'];
 			
 		}
 		
@@ -99,7 +100,8 @@
 	//	mysql_close($dbconnection);
 		
 		//header
-		header('Location: http://tektonomastics.org/map/' . $name);
+		
+		header('Location: http://tektonomastics.org/name/' . $sortname);
 		
 		}
 		}
