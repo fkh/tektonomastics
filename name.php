@@ -4,6 +4,31 @@
 	<title>Tektonomastics</title>
 
 	<?php include "include/head.inc"; ?>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>  
+	
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('div.photo-form').hide();
+
+		 $('a.add_photo').click(function() {
+		    $('div.photo-add').hide();
+		    $('div.photo-form').fadeIn("slow");
+			return false;
+		  });
+
+		 $('#cancel_new').click(function() {
+		    $('#photo-form').hide('blind');
+			$('#photo-add').show();
+		    return false;
+		  });
+
+		});
+		
+
+	</script>
 	  
 	</head>
 
@@ -84,15 +109,29 @@
 				echo "<p><emp>No address listed</emp></p>" ;
 			}
 			
-			$photos = getPhotos($row['id']); 
+			$buildingid = $row['id'];
+			
+			// add photos
+			$photoBlock = "<div class='photo-add'><a href='#' class='add_photo'>Add a photo</a><br></div><div class='photo-form'>";		
+				$photoBlock .= "<div id=photo-form-header>Upload a photo of this building</div><br>";
+				$photoBlock .= "<div id=photo-form-body>";
+				$photoBlock .= "<form action='/addphoto.php' enctype='multipart/form-data' method='post' name='addphoto'>";
+				$photoBlock .= "<input type='file' size='15' name='uploadFile'><input  type='hidden' name='id' value='" . $buildingid . "'></input><p>Your name (so we can credit you on Flickr!)</p><p><input type='text' name='contributor' value='' id=''></input></p><input type='submit' value='Upload'>";
+				$photoBlock .= "</form></div></div>" ;
+				
+				print $photoBlock;
+				
+				
+			
+			$photos = getPhotos($buildingid); 
 			
 			foreach ($photos as $photo) {
 				
-				echo "<img src='" . $photo . "'><br><br>\n";
+				echo "<p><img src='" . $photo . "'></p>\n";
 			}
 			
 			// credit
-			$contrib_credit = "<p> Contributed by ";
+			$contrib_credit = "<p>Building contributed by ";
 			
 			//date details
 			$contrib_date = date( "F", $row['timestamp'] ) . " " . date( "Y", $row['timestamp'] );		
@@ -116,8 +155,10 @@
 			$contrib_credit .= ", " . $contrib_date . ".</p>"; 
 			
 			print $contrib_credit;
-			
+				
 			}
+			
+			//footer section of page
 									
 			//get previous building			
 			$query = "SELECT sortname FROM building WHERE sortname < '" . $safename ."'   ORDER BY sortname DESC LIMIT 1;";
