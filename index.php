@@ -4,6 +4,7 @@
 	<title>Tektonomastics</title>
 	<meta name="description" content="Join us in a collaborative effort to map the named residential buildings of New York City and beyond.">
 	<?php include "include/head.inc"; ?>
+	<meta name="google-site-verification" content="ySru3pHB_MjPiBIvrGW8cqebreDoL-0zxz31WOh-to8" />
 </head>
 
 <body onload="load()">
