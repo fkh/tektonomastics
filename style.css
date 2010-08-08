@@ -333,6 +333,10 @@ p.name-heading {
 	
 }
 
+img {
+	border-style: none;
+}
+
 img#thumbnail {
 	border: 3px solid #333;
 	margin: 5px;
@@ -371,6 +375,7 @@ div#info {
 	margin-bottom: 15px;
 }
 
+/* adding new building */
 div#add_new {
 	float: left;
 }
