@@ -92,7 +92,7 @@
 		while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {								
 			
 			echo "<h2>" . stripslashes($row['name']) . "</h2>" ;
-			
+					
 			//address block
 			if ($row['address'] <> "") { 
 				
@@ -110,10 +110,13 @@
 				echo "<p><emp>No address listed</emp></p>" ;
 			}
 			
+			echo "<p><a href='/map/" . $row['id'] . "'>View on map</a>.</p>";
+			
+			
 			$buildingid = $row['id'];
 			
 			// add photos
-			$photoBlock = "<div class='photo-add'><a href='#' class='add_photo'>Add a photo</a><br></div><div class='photo-form'>";		
+			$photoBlock = "<div class='photo-add'><a href='#' class='add_photo'>Add a photo</a><br><br></div><div class='photo-form'>";		
 				$photoBlock .= "<div id=photo-form-header>Upload a photo of this building</div><br>";
 				$photoBlock .= "<div id=photo-form-body>";
 				$photoBlock .= "<form action='/addphoto.php' enctype='multipart/form-data' method='post' name='addphoto'>";
@@ -161,7 +164,7 @@
 			//small static map
 			$lat = $row['lat'];
 			$lon = $row['lon'];			
-			print "<a href='/map'><img src='http://maps.google.com/maps/api/staticmap?center=" . $lat . "," . $lon . "&zoom=17&size=700x200&markers=color:blue|" .  $lat . "," . $lon . "&sensor=false' /></a>";
+			print "<a href='/map/". $row['id'] ."'><img src='http://maps.google.com/maps/api/staticmap?center=" . $lat . "," . $lon . "&zoom=17&size=700x200&markers=color:blue|" .  $lat . "," . $lon . "&sensor=false' /></a>";
 			
 			// credit
 			$contrib_credit = "<p>Building contributed by ";

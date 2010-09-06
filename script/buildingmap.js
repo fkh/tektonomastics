@@ -1,7 +1,7 @@
 	var map;
 	
 	var infoWindow = new google.maps.InfoWindow( { 
-	    size: new google.maps.Size(150,150)
+		size: new google.maps.Size(150,150)
 	  });
 	
 	var geocoder;
@@ -30,30 +30,37 @@
 	//array to hold the map markers and highlight markers
 	var baseMarkers = [];
 	var hiliteMarker = [];
-	
-	var xml;
-	
-	//get the listing of map markers
-	$(document).ready(function(){
-		$.ajax({
-		        type: "GET",
-				url: "/markers.php?type=new",
-				dataType: "xml",
-				success: parsexml
-				});
-		});
 		
-		var markers;
-		
-function loadMap() {
+function loadMap(id) {
 	
 	//we need this for addresses
 	geocoder = new google.maps.Geocoder();
 	bounds = new google.maps.LatLngBounds(); 
-      
+	
 	var latlng = new google.maps.LatLng(40.67, -73.96);
+	var zoomLevel = 14;
+	
+	//get the lat/lon, if we have a single point
+
+	if (id > 0) {
+
+		zoomLevel = 17
+		
+		$.ajax({
+				type: "GET",
+				url: "/markers.php?id=" + id,
+				dataType: "xml",
+				async: false,
+				success: function(xml) {
+					$(xml).find('marker').each(function(){
+						latlng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lon'));
+					});
+				}
+			});
+	}
+      
 	var myOptions = {
-    zoom: 14,
+    zoom: zoomLevel,
     center: latlng,
     mapTypeId: google.maps.MapTypeId.HYBRID,
 	mapTypeControlOptions: {
@@ -63,7 +70,6 @@ function loadMap() {
 	                    google.maps.MapTypeId.HYBRID,
 	                    google.maps.MapTypeId.TERRAIN]
 	      },
-	streetViewControl: true
 	
   };
 
@@ -74,96 +80,21 @@ function loadMap() {
         infowindow.close();
     });
   
-  
-	
 	//set center point values for the form
 	newLat = map.getCenter().lat();
 	newLng = map.getCenter().lng();
 	document.addform.lat.value = newLat;
 	document.addform.lng.value = newLng;
-
-	downloadUrl("/markers.php", function(data) {
-	  var xml = parseXml(data);
-	    
-	  markers = xml.documentElement.getElementsByTagName("marker");
-
-	  var notFixed = true;
-	  for (var i = 0; i < markers.length; i++) {
 		
-		var building = markers[i].getAttribute("building");
-		
-		bId[building] = i;
-		
-	    var name = markers[i].getAttribute("name");
-		var shortname = name.replace("The ",""); 
-	    var address = markers[i].getAttribute("address");
-	    var point = new google.maps.LatLng(
-		        parseFloat(markers[i].getAttribute("lat")),
-		        parseFloat(markers[i].getAttribute("lon"))
-			);
-		var html = "<strong>" + name + "</strong><br>" + address + "<br><br><a href='/name/" + shortname + "'>View in inventory</a>";
-			
-		bounds.extend(point); 
-		addMarker(point, building, html);
-		
-	  }
-	
-	//map.fitBounds(bounds);
-		
-	});
-		
+	getPoints(0);
+	if (id > 0) {
+		getPoints(id);
+	}
 	
 }
 
 
-	//make a new map marker with our default styling
-	function addMarker(location, id, html) {
-		
-		var icon = customIcons['small'] || {};
-	    
-		marker = new google.maps.Marker({
-		    position: location,
-		    map: map,
-			icon: icon.icon,
-			shadow: icon.shadow
-		  });
-		
-		baseMarkers[id] = location;      
-		
-		bindInfoWindow(marker, map, infoWindow, html);
-		
-	}
-	
-	function downloadUrl(url,callback) {
-	 var request = window.ActiveXObject ?
-	     new ActiveXObject('Microsoft.XMLHTTP') :
-	     new XMLHttpRequest;
-
-	 request.onreadystatechange = function() {
-	   if (request.readyState == 4) {
-	     request.onreadystatechange = doNothing;
-	     callback(request.responseText, request.status);
-	   }
-	 };
-
-	 request.open('GET', url, true);
-	 request.send(null);
-	}
-	
-	function parseXml(str) {
-    if (window.ActiveXObject) {
-      var doc = new ActiveXObject('Microsoft.XMLDOM');
-      doc.loadXML(str);
-      return doc;
-    } else if (window.DOMParser) {
-      return (new DOMParser).parseFromString(str, 'text/xml');
-    }
-  }
-
-  function doNothing() {}
-
-
-
+	//for adding a new pushpin, for a new building
 	function addNew(e) {
 		
 		//get rid of any overlays
@@ -227,47 +158,6 @@ function loadMap() {
 		this.contributor = contributor;	
 	}
 	
-	function parsexml(xml) {
-		$(xml).find('building').each(function(){
-		//	var title = $(this).find('name').text();
-		//	$("#markers").append('<p>' + title + '</p>');
-		});
-	}
-	
-	function loadProfile(id) {
-		
-		//fetch the database info for this bulding
-				
-	//	$("#building-name").html(markers[bId[id]].getAttribute("name") + " " + markers[bId[id]].getAttribute("address"));
-		// $("#building-address").html(markers[bId[id]].getAttribute("address"));
-	//	$("#buildingimg").html("<div id='info'>Loading pics...</div>");
-
-
-	}
-	
-	function addHiliteMarker(id) {
-	//	var redHighlight = google.maps.MarkerImage({icon: 'http://labs.google.com/ridefinder/images/mm_20_red.png'});
-	//	baseMarkers[id].setImage(redHighlight);
-	}
-	
-
-	function idClicked(id) {
-		clearOverlays();
-		
-		$("#accordion").accordion("activate", 0); //open first panel
-		
-		var icon = customIcons['active'] || {} ;
-		
-		marker = new google.maps.Marker({
-	    position: baseMarkers[id],
-		icon: icon.icon,
-	    map: map
-	  });
-	  
-	//	alert(baseMarkers[id]);
-		highlightList.push(marker);
-	}
-	
 	
 	function clearOverlays() { //tidy up the map and info pane
 	  if (highlightList) {
@@ -285,15 +175,60 @@ function loadMap() {
 	  });
 	}
 	
-	function mapZoom(place) {
+	//makes map pins
+	function addMarker(loclat, loclon, html, id) {
 		
-		switch(place) {
-			case 'all':
-				map.fitBounds(bounds);
-				break;
-			case 'bx':
-				map.panTo(new google.maps.LatLng(40.83, -73.93));
-				map.setZoom(13);
-				break;
+		if (id > 0) {
+			var icon = customIcons['active'];
+			var zInd = 999;
+		} else {
+			var icon = customIcons['small'];
+			var zInd = 0;
+	    }
+	
+		var location = new google.maps.LatLng(loclat,loclon);
+		
+		marker = new google.maps.Marker({
+		    position: location,
+		    map: map,
+			icon: icon.icon,
+			shadow: icon.shadow,
+			zIndex: zInd
+		  });
+		
+		bindInfoWindow(marker, map, infoWindow, html);
+		
+		if (id > 0 ) {
+			map.panTo(location);
+			map.setZoom(17)
 		}
+	
 	}
+	
+	//fetches xml from markers.php, to set up map pins
+	function getPoints(id) {
+		
+		markersSource = "/markers.php";
+			
+		if (id > 0) {	
+			markersSource = markersSource + "?id=" + id ;
+		}
+		
+		$.ajax({
+				type: "GET",
+				url: markersSource,
+				dataType: "xml",
+				success: function(xml) {
+					$(xml).find('marker').each(function(){
+						linktext = "<a href='/name/" + $(this).attr('sortname') + "'>";
+						infoHTML = "<b>" + $(this).attr('name') + "</b><br>" + $(this).attr('address') + "<br>" + linktext + "View details and photos in inventory</a>";
+						addMarker($(this).attr('lat'), $(this).attr('lon'), infoHTML, id);
+								
+					});
+				}
+			});
+		
+
+		
+	}
+	

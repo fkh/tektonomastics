@@ -3,14 +3,13 @@
 <head>
 		<title>Tektonomastics</title>
 
-		<?php	include "include/head.inc"; ?>
+		<?php include "include/head.inc"; ?>
 
    <!-- <script src="/lib/jquery-1.4.2.js" type="text/javascript" ></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>-->
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>  
 
 	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-
 
 	<script src="/script/buildingmap.js" type="text/javascript"></script> 
 
@@ -48,7 +47,8 @@ $(document).ready(function() {
 </head>
 
 
-<body onload="loadMap()">
+
+<body onload="loadMap(<?php if (isset($_GET['id'])) { echo $_GET['id']; } ?>)">
 	<div id="body_container">
 	
 	<?php include "include/header.inc"; ?>
