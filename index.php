@@ -7,7 +7,7 @@
 	<meta name="google-site-verification" content="ySru3pHB_MjPiBIvrGW8cqebreDoL-0zxz31WOh-to8" />
 </head>
 
-<body onload="load()">
+<body>
 	
 	<!-- header/navigation -->
 	<?php include "include/header.inc"; ?>
