@@ -18,14 +18,17 @@
 
 			while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {
 			
-				$confirmation = "Thanks! Your building is now included in the inventory." ;
+				$confirmation = "Thanks! Your building is now included in the inventory. " ;
 				$confirmation .= "See it <a href='http://tektonomastics.org/name/" ;
 				$confirmation .= $row['sortname'] ;
-				$confirmation .= "'>here</a>." ;
+				$confirmation .= "'>on the map</a>." ;
+				
+				$sortname = $row['sortname'];
 			
 			}
 			
-			print $confirmation;
+			header('Location: http://tektonomastics.org/name/' . $sortname);
+			
 
 			} else {
 
