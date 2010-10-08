@@ -116,7 +116,7 @@
 			$buildingid = $row['id'];
 			
 			// add photos
-			$photoBlock = "<div class='photo-add'><a href='#' class='add_photo'>Add a photo</a><br><br></div><div class='photo-form'>";		
+			$photoBlock = "<div class='photo-add'><a href='#' class='add_photo'>Add a photo.</a><br><br></div><div class='photo-form'>";		
 				$photoBlock .= "<div id=photo-form-header>Upload a photo of this building</div><br>";
 				$photoBlock .= "<div id=photo-form-body>";
 				$photoBlock .= "<form action='/addphoto.php' enctype='multipart/form-data' method='post' name='addphoto'>";
@@ -154,7 +154,10 @@
 				
 			}
 			}
+						
+			if ($imgid) {
 			$comment_block .= "<p><a href='http://www.flickr.com/photos/tektonomastics/" . $imgid . "'>Add a comment</a> via Flickr (it'll show up here!).</p>"; 
+			}
 			
 			//print the images
 			print $comment_block;
@@ -176,12 +179,12 @@
 			$contrib = $row['contributor'];
 			$twitter = $row['twitter'];
 				
-			if ( $twitter ) {
+			if ( $twitter && $twitter <> "twitter") {
 				
 				$contrib_credit .= "<a href='http://twitter.com/" . $twitter . "'>@" . $twitter . "</a>";
 			
 			} else {
-				if  ( $contrib ) {
+				if  ( $contrib && $contrib <> "your name" ) {
 					$contrib_credit .= $contrib ;
 				} else {
 					$contrib_credit = "Anonymous contribution";
