@@ -257,6 +257,14 @@ div#footer {
 	clear: both;
 }
 
+div#footerimg {
+	text-align: center;
+	border: none;
+	height: 100px;
+	clear: both;
+}
+
+
 #footermenu li {
 	display: inline;
 	margin: 0; 
