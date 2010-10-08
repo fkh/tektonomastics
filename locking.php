@@ -40,6 +40,7 @@
 		//email to us
 		$devsubject = "New building! " . $name ;
 		$devmessage = "Submitted by: " . $email . ". Database id: " . $id ;
+		$devmessage .= $message;
 		
 		//send it, if we can
 			smtp($email, $subject, $message, $headers);
