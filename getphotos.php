@@ -52,7 +52,13 @@
 			if ($_GET['recent'] == 1 ) { //get the eight most recent pics
 			
 				
-					$getdb = "SELECT f.flickrimage as fi, b.sortname as bn, b.name as bname, f.timestamp as ts FROM flickr as f, building as b where f.buildingId = b.id group by b.sortname order by f.timestamp desc limit 7;";
+			if ( (isset($_GET['pics'])) && ($_GET['pics'] > 0) ) {
+				$picQty = $_GET['pics'] ; 
+				} else {
+				$picQty = 7;	
+			}
+			
+					$getdb = "SELECT f.flickrimage as fi, b.sortname as bn, b.name as bname, f.timestamp as ts FROM flickr as f, building as b where f.buildingId = b.id group by b.sortname order by f.timestamp desc limit " .   $picQty . ";";
 
 					if (!mysql_query($getdb,$dbconnection))
 					  {
