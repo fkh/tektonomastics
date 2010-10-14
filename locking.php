@@ -40,7 +40,14 @@
 		//email to us
 		$devsubject = "New building! " . $name ;
 		$devmessage = "Submitted by: " . $email . ". Database id: " . $id ;
-		$devmessage .= $message;
+		
+		//trac mail
+		$tracurl = "http://trac.tektonomastics.org/newticket?summary=" . urlencode($name) . "&description=Review%20" . urlencode($name) . "&component=buildings&type=task&priority=minor";
+		
+		$devmessage .= "<br><br><a href='" . $tracurl . "&owner=haru&cc=fkh'>Add task for Haru</a>" ;
+		$devmessage .= "<br><br><a href='" . $tracurl . "&owner=fkh&cc=haru'>Add task for Frank</a>" ;
+		
+		$devmessage .= "<br><br>" . $message;
 		
 		//send it, if we can
 			smtp($email, $subject, $message, $headers);
