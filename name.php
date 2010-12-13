@@ -137,8 +137,9 @@
 			}
 			
 			//work out how long the array is
-			
+						
 			$com_count = count((array)$photos[comments][author]);
+						
 			if ($com_count > 0) {
 			$comment_block = "<h4>Comments</h4>";
 			//write out comment block
@@ -152,8 +153,11 @@
 				
 				$comment_block .= date( "F", $commentdate ) . " " . date( "Y", $commentdate ) . "</p>";
 				
-			}
-			}
+				}
+			} else { 
+				$comment_block = ""; //we didn't put anything into the comment block, don't want to re-use the content from any previous loops. 
+				}
+			
 						
 			if ($imgid) {
 			$comment_block .= "<p><a href='http://www.flickr.com/photos/tektonomastics/" . $imgid . "'>Add a comment</a> via Flickr (it'll show up here!).</p>"; 
