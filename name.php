@@ -70,7 +70,7 @@
 		
 		//echo $safename . " ";
 				
-		$query = "SELECT id, name, sortname, address, boro, contributor, twitter, zip, lat, lon, timestamp FROM building WHERE sortname	 = '" . $safename ."'   ORDER BY sortname ASC;";
+		$query = "SELECT id, name, sortname, address, boro, contributor, twitter, zip, lat, lon, timestamp FROM building WHERE sortname = '" . $safename ."' AND rowlock = 0 ORDER BY sortname ASC;";
 		
 		//echo $query;
 	
