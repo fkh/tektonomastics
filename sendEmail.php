@@ -37,13 +37,9 @@ This version has been updated to handle Cc and Bcc headers.
 
 require_once "Mail.php";
 
+require_once "connect.php";
+
 function smtp($to, $subject, $message, $additional_headers = "") {
-    
-    # Declare SMTP Server Settings
-    $smtp_server = "smtp.webfaction.com";
-    $smtp_username = "fkh";
-    $smtp_password = "67789864";
-    $smtp_default_from = "tektonomastics@gmail.com";
     
     # Cast inputs to strings
     $to = (string) $to;
