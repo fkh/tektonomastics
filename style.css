@@ -355,8 +355,9 @@ img#thumbnail {
 }
 
 #add-info {
-	width: 250px;
+	width: 240px;
 	float: left;
+	margin-right: 10px;
 }
 
 #add-form {
