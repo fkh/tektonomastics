@@ -37,9 +37,9 @@ This version has been updated to handle Cc and Bcc headers.
 
 require_once "Mail.php";
 
-require_once "connect.php";
-
 function smtp($to, $subject, $message, $additional_headers = "") {
+    
+    include "connect.php";
     
     # Cast inputs to strings
     $to = (string) $to;
@@ -77,7 +77,7 @@ function smtp($to, $subject, $message, $additional_headers = "") {
     
     # Create the smtp object and send mail. Must return true on success,
     # false on failure.
-    
+        
     $smtp = Mail::factory("smtp", 
         Array("host" => $smtp_server, 
             "auth" => true,
@@ -89,7 +89,7 @@ function smtp($to, $subject, $message, $additional_headers = "") {
     $result = $smtp->send($recipients, $headers, $message);
     
     if (PEAR::IsError($result)) {
-        # echo $result->getMessage();
+        echo $result->getMessage();
         return false;
     } else {
         return true;

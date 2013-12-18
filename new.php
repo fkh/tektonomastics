@@ -24,9 +24,12 @@
 	
 	<?php
 	
-	$name = mysql_real_escape_string($_POST['name']);
-	$lat = mysql_real_escape_string($_POST['lat']);
-	$lon = mysql_real_escape_string($_POST['lng']);
+	$name = $_POST['name'];
+	//$name = mysql_real_escape_string($_POST['name']);
+	$lat = $_POST['lat'];
+	//$lat = mysql_real_escape_string($_POST['lat']);
+	$lon = $_POST['lng'];
+	//$lon = mysql_real_escape_string($_POST['lng']);
 	
 	print "<p>Thanks! We just need to collect a few details about " . $name . ", and then we're done.</p>\n";
 	

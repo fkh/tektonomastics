@@ -36,13 +36,14 @@
 		//prep headers
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$headers .= 'Reply-to: tektonomastics@gmail.com' . "\r\n";
-		$headers .= 'From: tektonomastics@fkh.webfactional.com' . "\r\n";
+		$headers .= 'cc: tektonomastics@gmail.com' . "\r\n";
+		
 
 		//email to us
 		$devsubject = "New building! " . $name ;
 		$devmessage = "Submitted by: " . $email . ". Database id: " . $id ;
-		
+		$devmessage .= "<br><br><a href='http://tektonomastics.org/map/" . $id ."'>Map</a>." ;
+				
 		//trac mail
 		$tracurl = "http://trac.tektonomastics.org/newticket?summary=" . urlencode($name) . "&description=Review%20" . urlencode($name) . "&component=buildings&type=task&priority=minor";
 		
@@ -52,8 +53,9 @@
 		$devmessage .= "<br><br>" . $message;
 		
 		//send it, if we can
-			smtp($email, $subject, $message, $headers);
-			smtp("tektonomastics@gmail.com", $devsubject, $devmessage, $headers);
+		 smtp($email, $subject, $message, $headers);
+			
+		//	smtp("Tektonomastics <tektonomastics@gmail.com>", $devsubject, $devmessage, $headers);
 		
 		return 1; // 
 		

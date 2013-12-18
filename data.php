@@ -4,7 +4,7 @@
 	<title> Tektonomastics</title>
 	<?php include "include/head.inc"; ?>
 	
-	  <script type="text/javascript" src="/lib/protovis-d3.2.js"></script>
+	  <script type="text/javascript" src="/lib/protovis-r3.2.js"></script>
 	<script type="text/javascript" src="/viz/year.js"></script>
 	
 	<?php
@@ -49,7 +49,7 @@
 	<?php include "include/header.inc"; ?>
 	<?php include "include/navbar.inc"; ?>
 	
-	<p>We use <a href="http://vis.stanford.edu/protovis/">Protoviz</a> to dynamically generate these charts from the inventory of buildings. Interested in getting the data? Scroll down for a kml.</p>
+	<p>We use <a href="http://vis.stanford.edu/protovis/">Protovis</a> to dynamically generate these charts from the inventory of buildings.</p><p>Interested in getting the data? Scroll down for a kml.</p>
 	
 	<h3>Buildings by year</h3>
 	<p>Year of construction.</p>

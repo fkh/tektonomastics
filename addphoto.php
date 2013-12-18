@@ -5,12 +5,14 @@
 		
 		
 		// set up flickr authentication
-		$f = new phpFlickr('247d8333f05337cfc918849ff141b0c6', 'b449e6d4f9bb6d30', false);
-		$f->setToken('72157623802048061-6ef5b17ea0b52483');
+		$f = new phpFlickr('8f318916cbe8543c9f372fea42389230', '9d6d80a01f22a3e3', false);
+		$f->setToken('72157632574876529-8d5398e6261ffdaa');
 		
 		if (isset($_POST['id'])) { //then we have something to add to the database
 			
-		//	echo "found id ";
+		//get a database connection
+		$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error.');
+		mysql_select_db($dbname, $dbconnection);
 			
 		//get the answers safe for the db
 		$timestamp = time();
@@ -29,9 +31,7 @@
 
 		}
 				
-		//get a database connection
-		$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error.');
-		mysql_select_db($dbname, $dbconnection);
+
 		
 		$query = "SELECT NAME, sortname, lat, lon FROM building WHERE ID = ". $name . ";";
 

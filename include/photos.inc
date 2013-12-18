@@ -9,8 +9,8 @@
 			include 'connect.php';
 		
 			// set up flickr authentication
-			$f = new phpFlickr(flickrkey, flickrsecret);
-			$f->setToken(flickrtoken);	
+			$f = new phpFlickr($flickrkey, $flickrsecret);
+			$f->setToken($flickrtoken);	
 			
 			//get a database connection
 			$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error.');

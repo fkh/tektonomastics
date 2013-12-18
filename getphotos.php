@@ -1,11 +1,11 @@
 <?php
 		
-		include 'connect.php';
+		require_once 'connect.php';
 		include 'include/phpFlickr.php';
 		
 		// set up flickr authentication
-		$f = new phpFlickr('247d8333f05337cfc918849ff141b0c6', 'b449e6d4f9bb6d30');
-		$f->setToken('72157623802048061-6ef5b17ea0b52483');
+		$f = new phpFlickr($flickrkey, $flickrsecret);
+		$f->setToken($flickrtoken);
 		
 		//get a database connection
 		$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error.');
@@ -16,7 +16,7 @@
 			
 		$building = $_GET['id'];
 		
-		// echo $building;
+		//echo $building;
 
 		//secondly, go to our database and get the list of flickr ids	
 		$getdb = "SELECT * FROM flickr where buildingId = " . $building . ";";
@@ -72,14 +72,14 @@
 					$flickrdata = array();
 					
 					while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {
-
 						$flickrdata = $f->photos_getSizes($row['fi']);
 
 						$photosHtml .= "<a href='/name/" . $row['bn'] . "'><img name='thumb' alt='" . $row['bname'] . "' src='" . $flickrdata[0][source] . "' id=thumbnail></a>\n";
+						
+						
 
 					} //end while
-					
-					
+
 			}
 	
 		}//end of 'if' for having a db id. 
@@ -87,12 +87,4 @@
 	
 		echo $photosHtml;
 		
-		
-		
-		//return a list of images
-		
-
-		
-		//tidy up the mysql connection
-	//	mysql_close($dbconnection);
 ?>
