@@ -7,7 +7,7 @@
 	
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
-<script type="text/javascript" src="http://tektonomastics.org/lib/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="/lib/jquery-1.4.2.js"></script>
 
 <script type="text/javascript">
 
