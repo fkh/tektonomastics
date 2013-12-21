@@ -83,7 +83,7 @@
 		$dbconnection = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error: ' . mysql_error() );
 		mysql_select_db($dbname, $dbconnection);
 		
-		$query = "SELECT id, NAME, SORTNAME, count(*) as quantity FROM building WHERE rowlock = 0 GROUP BY SORTNAME ORDER BY SORTNAME ASC;";
+		$query = "SELECT id, NAME, SORTNAME, ADDRESS, CITY FROM building WHERE rowlock = 0 ORDER BY SORTNAME ASC;";
 		
 		$db = mysql_query($query) or die (mysql_error($dbconnection));
 		
@@ -116,8 +116,8 @@
 				
 				echo "<tr>";
 				echo "<td class='building-name'><a href='/name/" . $linkname . "'>" . $prettyname . "</a></td>";
-				echo "<td class='building-address'></td>";
-				echo "<td class='building-city'></td>";				
+				echo "<td class='building-address'>$row['ADDRESS']</td>";
+				echo "<td class='building-city'>$row['CITY']</td>";				
 				echo "</tr>\n";
 				
 				}
