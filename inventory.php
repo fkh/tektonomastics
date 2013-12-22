@@ -116,8 +116,8 @@
 				
 				echo "<tr>";
 				echo "<td class='building-name'><a href='/name/" . $linkname . "'>" . $prettyname . "</a></td>";
-				echo "<td class='building-address'>$row['ADDRESS']</td>";
-				echo "<td class='building-city'>$row['CITY']</td>";				
+				echo "<td class='building-address'>" . $row['ADDRESS'] . "</td>";
+				echo "<td class='building-city'>" . $row['CITY'] . "</td>";				
 				echo "</tr>\n";
 				
 				}
