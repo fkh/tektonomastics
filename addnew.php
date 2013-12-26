@@ -84,14 +84,8 @@
 			$row = mysql_fetch_array($result);			
 			$id = $row[0] ; 
 			
-			if (($_SERVER["SERVER_NAME"]) == "tektonomastics.org") {
-				lockRecord($id, $email, $name);
-				echo "Check your email - we just send you a link, please click it to verify the building submission.<br><br> <a href='http://tektonomastics.org/map/'>Back to the map</a>.";
-			} else {
-				echo "Running on the development server - the record was created and locked, but no email was sent.\n\n";
-			}
-			
-
+			lockRecord($id, $email, $name);
+			echo "Check your email - we just send you a link, please click it to verify the building submission.<br><br> <a href='http://tektonomastics.org/map/'>Back to the map</a>.";
 			
 		} else {
 			
