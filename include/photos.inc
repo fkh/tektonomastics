@@ -2,7 +2,7 @@
 	
 	//	returns a list of flickr image urls.
 	
-		include 'include/phpFlickr.php';
+		include 'include/phpflickr-3.1.1/phpFlickr.php';
 		
 		function getPhotos($building) {
 		

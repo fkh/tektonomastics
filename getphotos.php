@@ -1,7 +1,7 @@
 <?php
 		
 		require_once 'connect.php';
-		include 'include/phpFlickr.php';
+		include 'include/phpflickr-3.1.1/phpFlickr.php';
 		
 		// set up flickr authentication
 		$f = new phpFlickr($flickrkey, $flickrsecret);
@@ -16,8 +16,6 @@
 			
 		$building = $_GET['id'];
 		
-		//echo $building;
-
 		//secondly, go to our database and get the list of flickr ids	
 		$getdb = "SELECT * FROM flickr where buildingId = " . $building . ";";
 
@@ -39,8 +37,6 @@
 		while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {
 		
 			$flickrdata = $f->photos_getSizes($row['flickrImage']);
-
-		//	print_r($flickrdata);
 			
 			$photosHtml .= "<img src='" . $flickrdata[0][source] . "' id=thumbnail>";
 			
@@ -73,7 +69,7 @@
 					
 					while ($row = mysql_fetch_array($db, MYSQL_BOTH)) {
 						$flickrdata = $f->photos_getSizes($row['fi']);
-
+						
 						$photosHtml .= "<a href='/name/" . $row['bn'] . "'><img name='thumb' alt='" . $row['bname'] . "' src='" . $flickrdata[0][source] . "' id=thumbnail></a>\n";
 						
 						
